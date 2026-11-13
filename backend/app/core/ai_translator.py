@@ -93,6 +93,50 @@ class AITranslator:
 
         return result
 
+    def pivot_to_english(
+        self,
+        masked_text: str,
+        source_lang: str = "auto",
+        transport: httpx.BaseTransport | None = None,
+    ) -> str | None:
+        """Pivots arbitrary non-English/non-French text into canonical English while strictly preserving tokens."""
+        provider = self.settings.ai_provider.lower().strip()
+        if provider == "glossary_only":
+            return None
+
+        cache_key = (f"pivot_en_{source_lang}", masked_text)
+        if cache_key in self._cache:
+            self._cache.move_to_end(cache_key)
+            return self._cache[cache_key].translated_masked_text
+
+        system_prompt = (
+            "You are a precision financial translator into English.\n"
+            "STRICT RULES:\n"
+            "1. Keep EVERY placeholder token like {{AMT_1}}, {{FEE_1}}, {{BEN_1}}, {{PHONE_1}}, "
+            "{{DATE_1}}, {{TIME_1}}, {{ACC_1}}, {{REF_1}}, {{PCT_1}}, {{NUM_1}} EXACTLY unchanged.\n"
+            "2. NEVER alter, translate, or invent numbers or placeholders.\n"
+            "3. Faithfully translate the sentence into clear, concise English.\n"
+            "4. Output ONLY the translated sentence, with no quotes, no markdown, and no explanation."
+        )
+
+        res: AITranslationResult | None = None
+        if provider == "gemini":
+            res = self._call_gemini(masked_text, system_prompt, transport=transport)
+        elif provider == "ollama":
+            res = self._call_ollama(masked_text, system_prompt, transport=transport)
+        elif provider == "auto":
+            if self.settings.gemini_api_key:
+                res = self._call_gemini(masked_text, system_prompt, transport=transport)
+            if res is None:
+                res = self._call_ollama(masked_text, system_prompt, transport=transport)
+
+        if res is not None:
+            self._cache[cache_key] = res
+            if len(self._cache) > self.cache_size:
+                self._cache.popitem(last=False)
+            return res.translated_masked_text
+        return None
+
     def _call_gemini(
         self,
         masked_text: str,

@@ -3,7 +3,7 @@
   "display_name": "Fulfulde (Grand Nord)",
   "iso_639_3": "fub",
   "region_cm": "Adamaoua, Nord, Extrême-Nord",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "negation_markers": ["taa", "waata", "walaa", "haa", "naa"],
   "entries": [
     {
@@ -14,6 +14,17 @@
       "translation": "[À VALIDER NATIF] Hakkilo : taa hokku goɗɗo koɗ PIN maada sam.",
       "back_translation_fr": "Attention : ne donne jamais ton code PIN à quelqu'un d'autre.",
       "audio_clip": "audio/fulfulde/fin_sec_001.ogg",
+      "validation_status": "PENDING_NATIVE_REVIEW",
+      "validated_by": null
+    },
+    {
+      "id": "FIN_SEC_002",
+      "criticality": "L1_CRITICAL_SECURITY",
+      "fr": ["Un agent officiel ne vous demandera jamais votre mot de passe."],
+      "en": ["An official agent will never ask for your password."],
+      "translation": "[À VALIDER NATIF] Golloowo laawol yamɗintaa ma sam lamba gundo maada.",
+      "back_translation_fr": "Un agent officiel ne te demandera jamais ton mot de passe.",
+      "audio_clip": "audio/fulfulde/fin_sec_002.ogg",
       "validation_status": "PENDING_NATIVE_REVIEW",
       "validated_by": null
     },
@@ -29,6 +40,17 @@
       "validated_by": null
     },
     {
+      "id": "FIN_BAL_002",
+      "criticality": "L2_TRANSACTION_CORE",
+      "fr": ["Compte courant", "Numéro de compte"],
+      "en": ["Checking account", "Account number"],
+      "translation": "[À VALIDER NATIF] Asilo ceeɗe",
+      "back_translation_fr": "Compte d'argent",
+      "audio_clip": "audio/fulfulde/fin_bal_002.ogg",
+      "validation_status": "PENDING_NATIVE_REVIEW",
+      "validated_by": null
+    },
+    {
       "id": "FIN_FEE_001",
       "criticality": "L2_TRANSACTION_CORE",
       "fr": ["Frais de transfert", "Frais de transaction", "Frais d'opération"],
@@ -36,6 +58,28 @@
       "translation": "[À VALIDER NATIF] Njoɓdi neldugol ceeɗe",
       "back_translation_fr": "Frais d'envoi d'argent",
       "audio_clip": "audio/fulfulde/fin_fee_001.ogg",
+      "validation_status": "PENDING_NATIVE_REVIEW",
+      "validated_by": null
+    },
+    {
+      "id": "FIN_FEE_002",
+      "criticality": "L2_TRANSACTION_CORE",
+      "fr": ["Total à débiter", "Montant total débité"],
+      "en": ["Total to be debited", "Total amount debited"],
+      "translation": "[À VALIDER NATIF] Ceeɗe fuu ɗe ɓe ittata",
+      "back_translation_fr": "Tout l'argent qu'ils retirent au total",
+      "audio_clip": "audio/fulfulde/fin_fee_002.ogg",
+      "validation_status": "PENDING_NATIVE_REVIEW",
+      "validated_by": null
+    },
+    {
+      "id": "FIN_TRF_001",
+      "criticality": "L2_TRANSACTION_CORE",
+      "fr": ["Préparer un transfert", "Envoyer de l'argent", "Nouveau transfert"],
+      "en": ["Prepare a transfer", "Send money", "New transfer"],
+      "translation": "[À VALIDER NATIF] Neldugol ceeɗe",
+      "back_translation_fr": "Envoi d'argent",
+      "audio_clip": "audio/fulfulde/fin_trf_001.ogg",
       "validation_status": "PENDING_NATIVE_REVIEW",
       "validated_by": null
     },
@@ -51,6 +95,28 @@
       "validated_by": null
     },
     {
+      "id": "FIN_TRF_003",
+      "criticality": "L2_TRANSACTION_CORE",
+      "fr": ["Montant à envoyer", "Montant"],
+      "en": ["Amount to send", "Amount"],
+      "translation": "[À VALIDER NATIF] Keerol ceeɗe",
+      "back_translation_fr": "La quantité / somme d'argent",
+      "audio_clip": "audio/fulfulde/fin_trf_003.ogg",
+      "validation_status": "PENDING_NATIVE_REVIEW",
+      "validated_by": null
+    },
+    {
+      "id": "FIN_TRF_004",
+      "criticality": "L2_TRANSACTION_CORE",
+      "fr": ["Récapitulatif avant confirmation", "Récapitulatif de l'opération"],
+      "en": ["Summary before confirmation", "Transaction summary"],
+      "translation": "[À VALIDER NATIF] Ƴeewtol yeeso tabitingol",
+      "back_translation_fr": "Vérification claire avant d'accepter",
+      "audio_clip": "audio/fulfulde/fin_trf_004.ogg",
+      "validation_status": "PENDING_NATIVE_REVIEW",
+      "validated_by": null
+    },
+    {
       "id": "FIN_ERR_001",
       "criticality": "L3_ERRORS",
       "fr": ["Solde insuffisant pour effectuer cette opération.", "Solde insuffisant"],
@@ -58,6 +124,28 @@
       "translation": "[À VALIDER NATIF] Ceeɗe maada keƴaayi ngam kuugal ngal.",
       "back_translation_fr": "Ton argent ne suffit pas pour cette opération.",
       "audio_clip": "audio/fulfulde/fin_err_001.ogg",
+      "validation_status": "PENDING_NATIVE_REVIEW",
+      "validated_by": null
+    },
+    {
+      "id": "FIN_ERR_002",
+      "criticality": "L3_ERRORS",
+      "fr": ["Plafond journalier dépassé."],
+      "en": ["Daily limit exceeded."],
+      "translation": "[À VALIDER NATIF] A ɓurii keerol ceeɗe ɲalnde wootere.",
+      "back_translation_fr": "Tu as dépassé la limite d'argent pour un jour.",
+      "audio_clip": "audio/fulfulde/fin_err_002.ogg",
+      "validation_status": "PENDING_NATIVE_REVIEW",
+      "validated_by": null
+    },
+    {
+      "id": "FIN_NAV_001",
+      "criticality": "L4_UI_NAVIGATION",
+      "fr": ["Continuer", "Suivant"],
+      "en": ["Continue", "Next"],
+      "translation": "[À VALIDER NATIF] Yaaru yeeso",
+      "back_translation_fr": "Aller de l'avant",
+      "audio_clip": null,
       "validation_status": "PENDING_NATIVE_REVIEW",
       "validated_by": null
     },
@@ -71,9 +159,38 @@
       "audio_clip": null,
       "validation_status": "PENDING_NATIVE_REVIEW",
       "validated_by": null
+    },
+    {
+      "id": "FIN_NAV_003",
+      "criticality": "L4_UI_NAVIGATION",
+      "fr": ["Annuler"],
+      "en": ["Cancel"],
+      "translation": "[À VALIDER NATIF] Acctu / Taa waɗu",
+      "back_translation_fr": "Laisser / ne pas faire",
+      "audio_clip": null,
+      "validation_status": "PENDING_NATIVE_REVIEW",
+      "validated_by": null
     }
   ],
   "templates": [
+    {
+      "id": "TPL_TRF_001",
+      "criticality": "L2_TRANSACTION_CORE",
+      "fr_pattern": "Vous allez transférer {{AMT_1}} à {{BEN_1}}. Frais : {{FEE_1}}.",
+      "en_pattern": "You are about to transfer {{AMT_1}} to {{BEN_1}}. Fee: {{FEE_1}}.",
+      "target_template": "[À VALIDER NATIF] A nelday {{AMT_1}} haa {{BEN_1}}. Njoɓdi : {{FEE_1}}.",
+      "required_tokens": ["{{AMT_1}}", "{{BEN_1}}", "{{FEE_1}}"],
+      "validation_status": "PENDING_NATIVE_REVIEW"
+    },
+    {
+      "id": "TPL_TRF_002",
+      "criticality": "L2_TRANSACTION_CORE",
+      "fr_pattern": "Vous allez transférer {{AMT_1}} à {{BEN_1}} ({{PHONE_1}}). Frais : {{AMT_2}}. Total à débiter : {{AMT_3}}.",
+      "en_pattern": "You are about to transfer {{AMT_1}} to {{BEN_1}} ({{PHONE_1}}). Fee: {{AMT_2}}. Total to be debited: {{AMT_3}}.",
+      "target_template": "[À VALIDER NATIF] A nelday {{AMT_1}} haa {{BEN_1}} ({{PHONE_1}}). Njoɓdi : {{AMT_2}}. Ceeɗe fuu ɓe ittata : {{AMT_3}}.",
+      "required_tokens": ["{{AMT_1}}", "{{BEN_1}}", "{{PHONE_1}}", "{{AMT_2}}", "{{AMT_3}}"],
+      "validation_status": "PENDING_NATIVE_REVIEW"
+    },
     {
       "id": "TPL_BAL_001",
       "criticality": "L2_TRANSACTION_CORE",
@@ -84,12 +201,21 @@
       "validation_status": "PENDING_NATIVE_REVIEW"
     },
     {
-      "id": "TPL_TRF_002",
+      "id": "TPL_FEE_001",
       "criticality": "L2_TRANSACTION_CORE",
-      "fr_pattern": "Vous allez transférer {{AMT_1}} à {{BEN_1}} ({{PHONE_1}}). Frais : {{AMT_2}}. Total à débiter : {{AMT_3}}.",
-      "en_pattern": "You are about to transfer {{AMT_1}} to {{BEN_1}} ({{PHONE_1}}). Fee: {{AMT_2}}. Total to be debited: {{AMT_3}}.",
-      "target_template": "[À VALIDER NATIF] A nelday {{AMT_1}} haa {{BEN_1}} ({{PHONE_1}}). Njoɓdi : {{AMT_2}}. Ceeɗe fuu ɓe ittata : {{AMT_3}}.",
-      "required_tokens": ["{{AMT_1}}", "{{BEN_1}}", "{{PHONE_1}}", "{{AMT_2}}", "{{AMT_3}}"],
+      "fr_pattern": "Frais de transaction ({{PCT_1}})",
+      "en_pattern": "Transaction fee ({{PCT_1}})",
+      "target_template": "[À VALIDER NATIF] Njoɓdi neldugol ({{PCT_1}})",
+      "required_tokens": ["{{PCT_1}}"],
+      "validation_status": "PENDING_NATIVE_REVIEW"
+    },
+    {
+      "id": "TPL_ACC_001",
+      "criticality": "L2_TRANSACTION_CORE",
+      "fr_pattern": "Compte courant {{ACC_1}}",
+      "en_pattern": "Checking account {{ACC_1}}",
+      "target_template": "[À VALIDER NATIF] Asilo ceeɗe {{ACC_1}}",
+      "required_tokens": ["{{ACC_1}}"],
       "validation_status": "PENDING_NATIVE_REVIEW"
     }
   ],
@@ -110,4 +236,3 @@
     "million": "miliyon"
   }
 }
-

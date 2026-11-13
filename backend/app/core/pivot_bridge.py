@@ -63,6 +63,37 @@ MULTILINGUAL_FINANCIAL_PATTERNS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"\bMpokeaji\b", re.IGNORECASE), "Beneficiary"),
     (re.compile(r"\bThibitisha uhamisho\b", re.IGNORECASE), "Confirm transfer"),
     (re.compile(r"\bSalio haitoshi\b", re.IGNORECASE), "Insufficient balance"),
+
+    # Arabic (ar)
+    (re.compile(r"الرصيد المتاح"), "Available balance"),
+    (re.compile(r"رسوم التحويل"), "Transfer fee"),
+    (re.compile(r"المستفيد"), "Beneficiary"),
+    (re.compile(r"تأكيد التحويل"), "Confirm transfer"),
+    (re.compile(r"رصيد غير كاف"), "Insufficient balance"),
+    (re.compile(r"تحذير\s*:\s*لا تشارك رمز PIN الخاص بك أبداً"), "Warning: never share your PIN code."),
+
+    # Chinese Simplified (zh)
+    (re.compile(r"可用余额"), "Available balance"),
+    (re.compile(r"转账费用"), "Transfer fee"),
+    (re.compile(r"收款人"), "Beneficiary"),
+    (re.compile(r"确认转账"), "Confirm transfer"),
+    (re.compile(r"余额不足"), "Insufficient balance"),
+    (re.compile(r"警告[：:]\s*切勿透露您的PIN码"), "Warning: never share your PIN code."),
+
+    # Russian (ru)
+    (re.compile(r"\bДоступный баланс\b", re.IGNORECASE), "Available balance"),
+    (re.compile(r"\bКомиссия за перевод\b", re.IGNORECASE), "Transfer fee"),
+    (re.compile(r"\bПолучатель\b", re.IGNORECASE), "Beneficiary"),
+    (re.compile(r"\bПодтвердить перевод\b", re.IGNORECASE), "Confirm transfer"),
+    (re.compile(r"\bНедостаточно средств\b", re.IGNORECASE), "Insufficient balance"),
+    (re.compile(r"\bВнимание\s*:\s*никогда не сообщайте свой PIN-код\b", re.IGNORECASE), "Warning: never share your PIN code."),
+
+    # Turkish (tr)
+    (re.compile(r"\bKullan[iı]labilir bakiye\b", re.IGNORECASE), "Available balance"),
+    (re.compile(r"\bTransfer [uü]creti\b", re.IGNORECASE), "Transfer fee"),
+    (re.compile(r"\bAl[iı]c[iı]\b", re.IGNORECASE), "Beneficiary"),
+    (re.compile(r"\bTransferi onayla\b", re.IGNORECASE), "Confirm transfer"),
+    (re.compile(r"\bYetersiz bakiye\b", re.IGNORECASE), "Insufficient balance"),
 ]
 
 
@@ -85,7 +116,17 @@ class UniversalPivotBridge:
             return clean_hint
 
         sample = text.lower()
+        # Script heuristics
+        if any("\u0600" <= c <= "\u06ff" for c in sample):
+            return "ar"
+        if any("\u4e00" <= c <= "\u9fff" for c in sample):
+            return "zh"
+        if any("\u0400" <= c <= "\u04ff" for c in sample):
+            return "ru"
+
         # Characteristic vocabulary checks (check Portuguese before Spanish due to overlap)
+        if any(w in sample for w in ["bakiye", "ücreti", "alıcı", "yetersiz"]):
+            return "tr"
         if any(w in sample for w in ["disponível", "transferência", "atenção", "dinheiro", "beneficiário", "você", "não"]):
             return "pt"
         if any(w in sample for w in ["guthaben", "überweisung", "konto", "gebühr", "betrag", "achtung", "empfänger", "nicht"]):
@@ -104,7 +145,12 @@ class UniversalPivotBridge:
         return "en"
 
     @classmethod
-    def pivot_to_english(cls, masked_text: str, source_lang: str = "auto") -> PivotResult:
+    def pivot_to_english(
+        cls,
+        masked_text: str,
+        source_lang: str = "auto",
+        ai_translator: object | None = None,
+    ) -> PivotResult:
         """Pivots foreign text into English canonical tokens without altering {{TOKENS}}."""
         detected = cls.detect_language(masked_text, source_lang)
 
@@ -120,5 +166,11 @@ class UniversalPivotBridge:
             if count > 0:
                 pivoted = new_text
                 changed = True
+
+        # If not matched deterministically and AI translator is available, use LLM pivot
+        if not changed and ai_translator is not None and hasattr(ai_translator, "pivot_to_english"):
+            llm_pivot = ai_translator.pivot_to_english(masked_text, source_lang=detected)
+            if llm_pivot:
+                return PivotResult(pivoted_text=llm_pivot, detected_source=detected, pivoted=True)
 
         return PivotResult(pivoted_text=pivoted, detected_source=detected, pivoted=changed)

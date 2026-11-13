@@ -120,7 +120,7 @@ Linguapay/
 │   │   └── tts/
 │   │       ├── number_composer.py   # Algorithme de verbalisation des nombres FCFA
 │   │       └── audio_resolver.py    # Assemblage de playlist pour lecture WebAudio
-│   └── tests/                       # Suite complète de tests unitaires et fuzzing (22 tests)
+│   └── tests/                       # Suite complète de tests unitaires et fuzzing (23 tests)
 │       ├── test_api_health_and_language_packs.py            # Santé API, chargement & conformité packs JSON
 │       ├── test_financial_shield_and_invariance_fuzzing.py  # EntityShield & Fuzzing 600 cas d'invariance financière
 │       ├── test_ai_translation_and_circuit_breaker.py       # Moteur IA L3, cache LRU & Circuit-Breaker
@@ -252,7 +252,7 @@ backend\.venv\Scripts\python.exe linguistics\validate_packs.py
 ```
 *Vérifie que chaque pack respecte `lang-pack.schema.json`, ne contient aucun identifiant dupliqué et que tous les tokens des templates sont bien préservés.*
 
-### 2. Tests Backend & Fuzzing d'Invariance Financière (22 tests)
+### 2. Tests Backend & Fuzzing d'Invariance Financière (23 tests)
 ```powershell
 cd backend
 .\.venv\Scripts\python.exe -m pytest tests -v
@@ -261,7 +261,7 @@ Cette suite exécute :
 - **Fuzzing sur 600 cas synthétiques aléatoires** : montants, frais, bénéficiaires camerounais, téléphones (+237) et devises (FCFA, XAF, EUR, USD) avec **0 % d'altération**.
 - **Tests du Bouclier `EntityShield`** : masquage et démasquage réversible déterministe.
 - **Tests du Vérificateur d'Intégrité `IntegrityVerifier`** : rejet immédiat si un token est supprimé, si un chiffre est inventé ou si une négation de sécurité est perdue.
-- **Tests du Pont Universel `UniversalPivotBridge`** : détection et pivot de sites espagnols, allemands, portugais vers l'anglais avant traduction vers les langues nationales.
+- **Tests du Pont Universel `UniversalPivotBridge`** : détection multi-alphabets et pivot universel vers l'anglais pour 9 langues sources (ES, DE, PT, IT, SW, AR, ZH, RU, TR) avant adaptation vers les langues nationales.
 - **Tests Audio `NumberComposer` & `AudioResolver`** : verbalisation grammaticale des montants de 0 à 1 000 000 FCFA en Ewondo, Duala et Fulfulde.
 - **Audit Zéro-PII** : vérification que `/api/v1/audit/recent` ne contient aucune donnée personnelle en clair.
 

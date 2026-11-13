@@ -79,7 +79,7 @@ def _translate_single(
         server_entities = shielded.entities
 
     # Universal Language Pivot Bridge: pivot non-FR/non-EN sites to English canonical form
-    pivot_res = UniversalPivotBridge.pivot_to_english(working_masked, source_lang)
+    pivot_res = UniversalPivotBridge.pivot_to_english(working_masked, source_lang, ai_translator=ai_translator)
     query_masked = pivot_res.pivoted_text if pivot_res.pivoted else working_masked
 
     tier_used = "FALLBACK_ORIGINAL"

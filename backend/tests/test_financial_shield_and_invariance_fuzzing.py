@@ -104,17 +104,18 @@ def test_template_engine_structural_colon_and_paren():
     g_engine = GlossaryEngine(PACKS_DIR)
     t_engine = TemplateEngine(g_engine)
 
-    # Structural colon: "Total à débiter : 51 500 FCFA"
-    s1 = EntityShield.lock("Total à débiter : 51 500 FCFA")
-    m1 = t_engine.match(s1.masked_text, "ewondo")
-    assert m1 is not None
-    assert "51 500 FCFA" in EntityShield.unlock(m1.translated_masked_text, s1.entities)
+    for lang in ("ewondo", "duala", "fulfulde"):
+        # Structural colon: "Total à débiter : 51 500 FCFA"
+        s1 = EntityShield.lock("Total à débiter : 51 500 FCFA")
+        m1 = t_engine.match(s1.masked_text, lang)
+        assert m1 is not None, f"Failed structural colon match for {lang}"
+        assert "51 500 FCFA" in EntityShield.unlock(m1.translated_masked_text, s1.entities)
 
-    # Structural parentheses: "Frais de transaction (3,00 %)"
-    s2 = EntityShield.lock("Frais de transaction (3,00 %)")
-    m2 = t_engine.match(s2.masked_text, "ewondo")
-    assert m2 is not None
-    assert "3,00 %" in EntityShield.unlock(m2.translated_masked_text, s2.entities)
+        # Structural parentheses: "Frais de transaction (3,00 %)"
+        s2 = EntityShield.lock("Frais de transaction (3,00 %)")
+        m2 = t_engine.match(s2.masked_text, lang)
+        assert m2 is not None, f"Failed structural parentheses match for {lang}"
+        assert "3,00 %" in EntityShield.unlock(m2.translated_masked_text, s2.entities)
 
 
 # ---------------------------------------------------------------------------

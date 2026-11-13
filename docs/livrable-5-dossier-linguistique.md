@@ -153,9 +153,9 @@ Pour les usagers non-alphabétisés, la lecture de chiffres écrits (ex : `75 00
 
 ## 7. Indicateurs Qualité & Couverture Actuelle
 
-- **Entrées Lexicales de Niveau 1** : 100 % des termes transactionnels vitaux (solde, frais, virement, confirmation, annulation, code secret) sont couverts.
-- **Templates Paramétrés de Niveau 2** : Les 5 structures transactionnelles majeures (demande d'envoi, confirmation de débit, alerte de solde insuffisant, rejet pour code erroné, reçu avec référence) sont opérationnelles.
-- **Taux de Succès aux Tests Unitaires** : 100 % (22/22 tests automatisés passés avec succès).
+- **Entrées Lexicales de Niveau 1** : 100 % des termes transactionnels vitaux (15 entrées dans chaque pack : Ewondo, Duala, Fulfulde) sont couverts avec équivalence certifiable.
+- **Templates Paramétrés de Niveau 2** : Les 5 structures transactionnelles majeures (demande d'envoi, confirmation de débit, alerte de solde insuffisant, rejet pour code erroné, reçu avec référence) sont opérationnelles à 100 % de parité sur les 3 langues nationales.
+- **Taux de Succès aux Tests Unitaires** : 100 % (23/23 tests automatisés passés avec succès).
 - **Intégrité Financière** : 0 % d'altération sur 600 itérations de fuzzing aléatoire (`test_financial_shield_and_invariance_fuzzing.py`).
 
 ---

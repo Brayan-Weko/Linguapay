@@ -24,6 +24,10 @@ def test_language_detection_heuristics():
     assert UniversalPivotBridge.detect_language("Verfügbares Guthaben und Überweisung") == "de"
     assert UniversalPivotBridge.detect_language("Saldo disponível para transferência") == "pt"
     assert UniversalPivotBridge.detect_language("Salio lililopo na gharama ya uhamisho") == "sw"
+    assert UniversalPivotBridge.detect_language("الرصيد المتاح في الحساب") == "ar"
+    assert UniversalPivotBridge.detect_language("可用余额及转账") == "zh"
+    assert UniversalPivotBridge.detect_language("Доступный баланс счета") == "ru"
+    assert UniversalPivotBridge.detect_language("Kullanılabilir bakiye ve transfer") == "tr"
     assert UniversalPivotBridge.detect_language("Available balance in checking account") == "en"
     assert UniversalPivotBridge.detect_language("Votre solde disponible en compte") == "fr"
 
@@ -43,6 +47,29 @@ def test_german_pivot_preserves_tokens():
     assert pivot.pivoted is True
     assert "Available balance" in pivot.pivoted_text
     assert "{{AMT_1}}" in pivot.pivoted_text
+
+
+def test_chinese_arabic_and_russian_pivot():
+    # Chinese
+    sh_zh = EntityShield.lock("可用余额 : 100 000 FCFA")
+    p_zh = UniversalPivotBridge.pivot_to_english(sh_zh.masked_text, source_lang="zh")
+    assert p_zh.pivoted is True
+    assert "Available balance" in p_zh.pivoted_text
+    assert "{{AMT_1}}" in p_zh.pivoted_text
+
+    # Arabic
+    sh_ar = EntityShield.lock("الرصيد المتاح : 75 000 FCFA")
+    p_ar = UniversalPivotBridge.pivot_to_english(sh_ar.masked_text, source_lang="ar")
+    assert p_ar.pivoted is True
+    assert "Available balance" in p_ar.pivoted_text
+    assert "{{AMT_1}}" in p_ar.pivoted_text
+
+    # Russian
+    sh_ru = EntityShield.lock("Доступный баланс : 35 000 FCFA")
+    p_ru = UniversalPivotBridge.pivot_to_english(sh_ru.masked_text, source_lang="ru")
+    assert p_ru.pivoted is True
+    assert "Available balance" in p_ru.pivoted_text
+    assert "{{AMT_1}}" in p_ru.pivoted_text
 
 
 def test_e2e_api_translate_from_spanish_and_german():
