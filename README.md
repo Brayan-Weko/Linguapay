@@ -121,11 +121,11 @@ Linguapay/
 │   │       ├── number_composer.py   # Algorithme de verbalisation des nombres FCFA
 │   │       └── audio_resolver.py    # Assemblage de playlist pour lecture WebAudio
 │   └── tests/                       # Suite complète de tests unitaires et fuzzing (22 tests)
-│       ├── test_sprint1_foundation.py
-│       ├── test_sprint2_shield_and_api.py
-│       ├── test_sprint3_ai_level3.py
-│       ├── test_sprint4_audio_and_numbers.py
-│       └── test_universal_pivot_bridge.py
+│       ├── test_api_health_and_language_packs.py            # Santé API, chargement & conformité packs JSON
+│       ├── test_financial_shield_and_invariance_fuzzing.py  # EntityShield & Fuzzing 600 cas d'invariance financière
+│       ├── test_ai_translation_and_circuit_breaker.py       # Moteur IA L3, cache LRU & Circuit-Breaker
+│       ├── test_fcfa_number_composer_and_audio.py           # Algorithme NumberComposer & synthèse audio WAV
+│       └── test_universal_pivot_bridge.py                   # Détection multi-langues & pivot universel anglais
 ├── extension/                       # Extension Chrome / Edge Manifest V3 (TypeScript + esbuild)
 │   ├── manifest.json                # Déclaration MV3 stricte
 │   ├── package.json                 # Dépendances Node & scripts de build
@@ -165,10 +165,18 @@ Linguapay/
 ├── tests-e2e/                       # Tests Playwright d'intégration de bout en bout
 │   ├── README.md
 │   └── run_smoke.py                 # Lance SimuBank + API + Playwright avec l'extension
+├── scripts/
+│   └── package_extension.py         # Script d'empaquetage de l'extension en archive ZIP
+├── linguapay-extension-v1.0.zip     # Archive de distribution prête pour le jury
 ├── docker-compose.yml               # Déploiement local orchestré pour le jury
-└── docs/
-    ├── note-technique.md            # Note technique de synthèse SAFINUM
-    └── declarations-tiers.md        # Déclaration formelle des composants tiers et licences
+└── docs/                            # Dossier des livrables officiels SAFINUM
+    ├── livrable-1-description-succincte.md      # Livrable 1 : Fiche synthétique du projet
+    ├── livrable-2-guide-reproductible.md        # Livrable 2 : Protocole pas-à-pas de reproduction
+    ├── livrable-3-script-video-demonstration.md # Livrable 3 : Storyboard & script vidéo 3 minutes
+    ├── livrable-4-note-technique.md             # Livrable 4 : Architecture & conformité Section 9
+    ├── livrable-5-dossier-linguistique.md       # Livrable 5 : Dictionnaires, AGLC & validation 4 phases
+    ├── declarations-tiers.md                    # Déclaration formelle des composants tiers et licences
+    └── note-technique.md                        # Note technique synthétique
 ```
 
 ---
@@ -286,7 +294,7 @@ docker compose up --build
 
 ### Profil B : Déploiement Cloud Hybride (Évaluation à Distance)
 - Le backend FastAPI peut être conteneurisé et déployé sur n'importe quel service Cloud (Cloud Run, Railway, VPS) avec la variable `LINGUAPAY_AI_PROVIDER=gemini` et `GEMINI_API_KEY`.
-- L'extension est empaquetée en archive ZIP (`linguapay-extension-v0.3.0.zip`) prête à être distribuée et installée par le jury.
+- L'extension est empaquetée en archive ZIP (`linguapay-extension-v1.0.zip`, générée via `python scripts/package_extension.py`) prête à être distribuée et installée par le jury.
 
 ---
 
