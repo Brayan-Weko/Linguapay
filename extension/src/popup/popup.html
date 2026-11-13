@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>LinguaPay Assist</title>
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; width: 270px; margin: 0; padding: 14px; background: #0f2942; color: #f8fafc; }
+    h1 { font-size: 16px; margin: 0 0 6px 0; color: #34d399; }
+    p { font-size: 12px; color: #cbd5e1; margin: 0 0 10px 0; }
+    select, button { width: 100%; padding: 8px; border-radius: 6px; border: none; margin-bottom: 8px; font-weight: 600; }
+    select { background: #1e293b; color: #fff; border: 1px solid #334155; }
+    button { background: #0b6e4f; color: #fff; cursor: pointer; }
+    .status { font-size: 11px; color: #94a3b8; }
+  </style>
+</head>
+<body>
+  <h1>LinguaPay Assist</h1>
+  <p>Adaptation linguistique sécurisée (SAFINUM 2026)</p>
+  <select id="lang-select">
+    <option value="ewondo">Ewondo (Centre / Sud)</option>
+    <option value="duala">Duala (Littoral)</option>
+    <option value="fulfulde">Fulfulde (Grand Nord)</option>
+  </select>
+  <button id="toggle-btn" type="button">Activer / Désactiver</button>
+  <div class="status" id="api-status">Vérification API...</div>
+  <script type="module" src="popup.js"></script>
+</body>
+</html>
