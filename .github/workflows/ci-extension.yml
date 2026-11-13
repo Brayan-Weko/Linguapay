@@ -1,0 +1,56 @@
+name: Extension CI & Build
+
+on:
+  push:
+    branches: [main, develop, staging]
+    paths:
+      - "extension/**"
+      - ".github/workflows/ci-extension.yml"
+  pull_request:
+    branches: [main, develop, staging]
+
+jobs:
+  build-and-test:
+    name: Extension Typecheck, Test & Build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20, 22]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+          cache-dependency-path: extension/package.json
+
+      - name: Install dependencies
+        working-directory: extension
+        run: npm ci || npm install
+
+      - name: Typecheck TypeScript
+        working-directory: extension
+        run: npm run typecheck
+
+      - name: Run Vitest Unit Tests
+        working-directory: extension
+        run: npm test
+
+      - name: Bundle MV3 Extension
+        working-directory: extension
+        run: npm run build
+
+      - name: Verify Distribution Artifacts
+        working-directory: extension
+        run: |
+          test -f dist/manifest.json
+          test -f dist/content.js
+          test -f dist/service-worker.js
+          test -f dist/popup.js
+          test -f dist/popup.html
+          echo "All MV3 bundle files verified successfully."
+

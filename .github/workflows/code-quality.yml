@@ -1,0 +1,37 @@
+name: "Qualité & Formatage du Code (Bloquant)"
+
+on:
+  push:
+    branches: ["main", "master", "develop", "dev", "staging"]
+  pull_request:
+    branches: ["main", "master", "develop", "dev", "staging"]
+
+jobs:
+  format-and-lint:
+    name: "Vérification Formatage & Bonnes Pratiques"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: "Configurer Node.js"
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20.x"
+
+      - name: "Vérifier le typage TypeScript frontend"
+        working-directory: frontend
+        run: |
+          npm ci
+          npm run typecheck
+
+      - name: "Vérifier le typage TypeScript backend"
+        working-directory: backend
+        run: |
+          npm ci
+          npm run db:generate
+          npm run typecheck
+
+      - name: "Contrôler l'absence de debuggers ou console.trace"
+        run: |
+          ! grep -rnE "debugger;|console\.trace\(" backend/src frontend/src
+

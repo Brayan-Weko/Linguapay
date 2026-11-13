@@ -1,0 +1,48 @@
+name: Backend CI & Security
+
+on:
+  push:
+    branches: [main, develop, staging]
+    paths:
+      - "backend/**"
+      - "linguistics/**"
+      - ".github/workflows/ci-backend.yml"
+  pull_request:
+    branches: [main, develop, staging]
+
+jobs:
+  test:
+    name: Backend Tests & Fuzzing
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.12", "3.13"]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r backend/requirements.txt
+          pip install pytest pytest-cov bandit
+
+      - name: Validate Language Packs Schema & Tokens
+        run: |
+          python linguistics/validate_packs.py
+
+      - name: Run Pytest Suite & Financial Invariance Fuzzing
+        run: |
+          cd backend
+          pytest tests/ -v --cov=app --cov-report=term-missing
+
+      - name: Run Bandit Security Analysis
+        run: |
+          bandit -r backend/app -ll -ii

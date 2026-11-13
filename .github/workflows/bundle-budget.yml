@@ -1,0 +1,78 @@
+name: Frontend Bundle Size & Budget Check
+
+on:
+  push:
+    branches: [main, master, develop, dev, staging]
+    paths:
+      - 'frontend/**'
+      - '.github/workflows/bundle-budget.yml'
+  pull_request:
+    branches: [main, master, develop, dev, staging]
+    paths:
+      - 'frontend/**'
+      - '.github/workflows/bundle-budget.yml'
+
+jobs:
+  bundle-budget:
+    name: Check Bundle Budget
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+        working-directory: frontend
+
+      - name: Build frontend
+        run: npm run build
+        working-directory: frontend
+
+      - name: Verify bundle size limits
+        run: |
+          node -e "
+            const fs = require('fs');
+            const path = require('path');
+            const distDir = path.join('frontend', 'dist', 'assets');
+            if (!fs.existsSync(distDir)) {
+              console.error('Dist directory does not exist:', distDir);
+              process.exit(1);
+            }
+            const files = fs.readdirSync(distDir);
+            let totalJsSize = 0;
+            let totalCssSize = 0;
+            const MAX_SINGLE_FILE_BYTES = 1024 * 1024; // 1 MB limit per chunk
+            let failed = false;
+
+            for (const file of files) {
+              const fullPath = path.join(distDir, file);
+              const stats = fs.statSync(fullPath);
+              const sizeKb = (stats.size / 1024).toFixed(2);
+              console.log(\`Chunk: \${file} - \${sizeKb} KB\`);
+
+              if (file.endsWith('.js')) {
+                totalJsSize += stats.size;
+              } else if (file.endsWith('.css')) {
+                totalCssSize += stats.size;
+              }
+
+              if (stats.size > MAX_SINGLE_FILE_BYTES) {
+                console.error(\`ERROR: File \${file} exceeds maximum single-chunk limit of 1MB (\${sizeKb} KB)\`);
+                failed = true;
+              }
+            }
+
+            console.log(\`Total JS: \${(totalJsSize / 1024).toFixed(2)} KB\`);
+            console.log(\`Total CSS: \${(totalCssSize / 1024).toFixed(2)} KB\`);
+
+            if (failed) process.exit(1);
+          "
+

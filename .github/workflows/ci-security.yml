@@ -1,0 +1,40 @@
+name: Security & Vulnerability Audits
+
+on:
+  push:
+    branches: [main, develop, staging]
+  pull_request:
+    branches: [main, develop, staging]
+  schedule:
+    - cron: "0 4 * * 1" # Weekly Monday audit
+
+jobs:
+  audit-dependencies:
+    name: Dependency & Code Security Audits
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Audit Python Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pip-audit bandit
+          pip-audit -r backend/requirements.txt || echo "Pip-audit completed with warnings."
+          bandit -r backend/app -ll
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Audit NPM Dependencies
+        working-directory: extension
+        run: |
+          npm audit --audit-level=high || echo "NPM audit completed."
+

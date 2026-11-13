@@ -1,0 +1,47 @@
+name: "CI Frontend (Bloquant)"
+
+on:
+  push:
+    branches: ["main", "master", "develop", "dev", "staging"]
+    paths:
+      - "frontend/**"
+      - ".github/workflows/ci-frontend.yml"
+  pull_request:
+    branches: ["main", "master", "develop", "dev", "staging"]
+    paths:
+      - "frontend/**"
+      - ".github/workflows/ci-frontend.yml"
+
+concurrency:
+  group: ci-frontend-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  typecheck-and-build:
+    name: "Vérification Frontend (TypeScript, Vite Build)"
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: "Récupérer le code source"
+        uses: actions/checkout@v4
+
+      - name: "Configurer Node.js 20.x"
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20.x"
+          cache: "npm"
+          cache-dependency-path: "frontend/package-lock.json"
+
+      - name: "Installer les dépendances frontend"
+        working-directory: frontend
+        run: npm ci
+
+      - name: "Vérification du typage TypeScript"
+        working-directory: frontend
+        run: npm run typecheck
+
+      - name: "Compiler l'application web pour production (Vite Build)"
+        working-directory: frontend
+        run: npm run build
+

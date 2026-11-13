@@ -1,0 +1,51 @@
+name: "Docker Smoke Test & Healthcheck (Non Bloquant)"
+
+on:
+  push:
+    branches: ["main", "master"]
+    paths:
+      - "backend/**"
+      - "Dockerfile"
+      - "docker-compose.yml"
+  workflow_dispatch:
+
+jobs:
+  docker-build:
+    name: "Build Image Docker & Test /health"
+    runs-on: ubuntu-latest
+    continue-on-error: true
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: "Configurer Docker Buildx"
+        uses: docker/setup-buildx-action@v3
+
+      - name: "Construire l'image Docker de test"
+        uses: docker/build-push-action@v5
+        with:
+          context: ./backend
+          file: ./backend/Dockerfile
+          push: false
+          tags: jobbot-backend:smoke-test
+          load: true
+
+      - name: "Démarrer le conteneur en environnement isolé"
+        run: |
+          docker run -d --name jobbot-api \
+            -p 3000:3000 \
+            -e NODE_ENV=development \
+            -e JWT_SECRET=smoke-test-jwt-secret-very-long-string-for-testing \
+            -e ADMIN_JWT_SECRET=smoke-test-admin-jwt-secret-very-long-string-for-testing \
+            -e ENCRYPTION_KEY=ZGV2LW9ubHktZW5jcnlwdGlvbi1rZXktMzItYnl0ZXMhIQ== \
+            jobbot-backend:smoke-test
+
+      - name: "Attendre le démarrage et sonder le endpoint /health"
+        run: |
+          sleep 5
+          curl --fail --retry 5 --retry-delay 2 http://localhost:3000/health || (docker logs jobbot-api && exit 1)
+
+      - name: "Nettoyer les conteneurs"
+        if: always()
+        run: docker rm -f jobbot-api || true
+

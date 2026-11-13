@@ -1,0 +1,75 @@
+name: OpenAPI Specification & Drift Check
+
+on:
+  push:
+    branches: [main, master, develop, dev, staging]
+    paths:
+      - 'backend/src/**'
+      - 'backend/scripts/export-openapi.ts'
+      - 'backend/openapi.json'
+      - '.github/workflows/openapi-validation.yml'
+  pull_request:
+    branches: [main, master, develop, dev, staging]
+    paths:
+      - 'backend/src/**'
+      - 'backend/scripts/export-openapi.ts'
+      - 'backend/openapi.json'
+      - '.github/workflows/openapi-validation.yml'
+
+jobs:
+  validate-openapi:
+    name: Verify Swagger / OpenAPI Generation
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          cache: 'npm'
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Install backend dependencies
+        run: npm ci
+        working-directory: backend
+
+      - name: Generate Prisma Client & Dev Database
+        run: |
+          npm run db:generate
+          npm run db:push
+          npm run db:seed
+        working-directory: backend
+        env:
+          DATABASE_PROVIDER: sqlite
+          DATABASE_URL: "file:./dev.db"
+          JWT_SECRET: "test-jwt-secret-openapi-must-be-at-least-32-chars-long"
+
+      - name: Export OpenAPI Specification
+        run: npm run openapi
+        working-directory: backend
+        env:
+          DATABASE_PROVIDER: sqlite
+          DATABASE_URL: "file:./dev.db"
+          JWT_SECRET: "test-jwt-secret-openapi-must-be-at-least-32-chars-long"
+          SWAGGER_ENABLED: "true"
+
+      - name: Validate OpenAPI file exists and is valid JSON
+        run: |
+          node -e "
+            const fs = require('fs');
+            const spec = JSON.parse(fs.readFileSync('backend/openapi.json', 'utf8'));
+            if (!spec.openapi || !spec.info || !spec.paths) {
+              console.error('Missing standard OpenAPI 3.0 fields');
+              process.exit(1);
+            }
+            const pathCount = Object.keys(spec.paths).length;
+            console.log('Successfully validated OpenAPI specification with ' + pathCount + ' paths.');
+            if (pathCount === 0) {
+              console.error('No paths found in OpenAPI specification!');
+              process.exit(1);
+            }
+          "
+
