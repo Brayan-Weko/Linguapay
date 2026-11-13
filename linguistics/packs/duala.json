@@ -1,0 +1,113 @@
+{
+  "language": "duala",
+  "display_name": "Duala (Littoral)",
+  "iso_639_3": "dua",
+  "region_cm": "Littoral (Douala et zone côtière)",
+  "version": "0.1.0",
+  "negation_markers": ["si", "titi", "bebe", "ke"],
+  "entries": [
+    {
+      "id": "FIN_SEC_001",
+      "criticality": "L1_CRITICAL_SECURITY",
+      "fr": ["Attention : ne communiquez jamais votre code PIN.", "Ne partagez jamais votre code PIN avec un tiers."],
+      "en": ["Warning: never share your PIN code.", "Never disclose your secret PIN to anyone."],
+      "translation": "[À VALIDER NATIF] Jéngé : o si langweya moto mpepe kôd PIN ango.",
+      "back_translation_fr": "Attention : ne révèle jamais ton code PIN à une autre personne.",
+      "audio_clip": "audio/duala/fin_sec_001.ogg",
+      "validation_status": "PENDING_NATIVE_REVIEW",
+      "validated_by": null
+    },
+    {
+      "id": "FIN_BAL_001",
+      "criticality": "L2_TRANSACTION_CORE",
+      "fr": ["Solde disponible", "Votre solde disponible"],
+      "en": ["Available balance", "Your available balance"],
+      "translation": "[À VALIDER NATIF] Moni mwa wɛɛ",
+      "back_translation_fr": "L'argent disponible dans ton compte",
+      "audio_clip": "audio/duala/fin_bal_001.ogg",
+      "validation_status": "PENDING_NATIVE_REVIEW",
+      "validated_by": null
+    },
+    {
+      "id": "FIN_FEE_001",
+      "criticality": "L2_TRANSACTION_CORE",
+      "fr": ["Frais de transfert", "Frais de transaction", "Frais d'opération"],
+      "en": ["Transfer fee", "Transaction fee", "Operation fee"],
+      "translation": "[À VALIDER NATIF] Musako ma ebolo ya loma",
+      "back_translation_fr": "Coût du service d'envoi",
+      "audio_clip": "audio/duala/fin_fee_001.ogg",
+      "validation_status": "PENDING_NATIVE_REVIEW",
+      "validated_by": null
+    },
+    {
+      "id": "FIN_TRF_002",
+      "criticality": "L2_TRANSACTION_CORE",
+      "fr": ["Bénéficiaire", "Nom du bénéficiaire", "Destinataire"],
+      "en": ["Beneficiary", "Recipient name", "Recipient"],
+      "translation": "[À VALIDER NATIF] Moto nu ma kusa moni",
+      "back_translation_fr": "La personne qui reçoit l'argent",
+      "audio_clip": "audio/duala/fin_trf_002.ogg",
+      "validation_status": "PENDING_NATIVE_REVIEW",
+      "validated_by": null
+    },
+    {
+      "id": "FIN_ERR_001",
+      "criticality": "L3_ERRORS",
+      "fr": ["Solde insuffisant pour effectuer cette opération.", "Solde insuffisant"],
+      "en": ["Insufficient balance to complete this transaction.", "Insufficient balance"],
+      "translation": "[À VALIDER NATIF] Moni mwa wɛɛ mu titi na mu bole ebolo nin.",
+      "back_translation_fr": "Ton solde n'est pas suffisant pour faire cette opération.",
+      "audio_clip": "audio/duala/fin_err_001.ogg",
+      "validation_status": "PENDING_NATIVE_REVIEW",
+      "validated_by": null
+    },
+    {
+      "id": "FIN_NAV_002",
+      "criticality": "L4_UI_NAVIGATION",
+      "fr": ["Confirmer le transfert", "Confirmer"],
+      "en": ["Confirm transfer", "Confirm"],
+      "translation": "[À VALIDER NATIF] Emba ebolo",
+      "back_translation_fr": "Valider l'opération",
+      "audio_clip": null,
+      "validation_status": "PENDING_NATIVE_REVIEW",
+      "validated_by": null
+    }
+  ],
+  "templates": [
+    {
+      "id": "TPL_BAL_001",
+      "criticality": "L2_TRANSACTION_CORE",
+      "fr_pattern": "Solde disponible : {{AMT_1}}",
+      "en_pattern": "Available balance: {{AMT_1}}",
+      "target_template": "[À VALIDER NATIF] Moni mwa wɛɛ : {{AMT_1}}",
+      "required_tokens": ["{{AMT_1}}"],
+      "validation_status": "PENDING_NATIVE_REVIEW"
+    },
+    {
+      "id": "TPL_TRF_002",
+      "criticality": "L2_TRANSACTION_CORE",
+      "fr_pattern": "Vous allez transférer {{AMT_1}} à {{BEN_1}} ({{PHONE_1}}). Frais : {{AMT_2}}. Total à débiter : {{AMT_3}}.",
+      "en_pattern": "You are about to transfer {{AMT_1}} to {{BEN_1}} ({{PHONE_1}}). Fee: {{AMT_2}}. Total to be debited: {{AMT_3}}.",
+      "target_template": "[À VALIDER NATIF] O ma loma {{AMT_1}} na {{BEN_1}} ({{PHONE_1}}). Musako : {{AMT_2}}. Moni mwa bɔkɔ : {{AMT_3}}.",
+      "required_tokens": ["{{AMT_1}}", "{{BEN_1}}", "{{PHONE_1}}", "{{AMT_2}}", "{{AMT_3}}"],
+      "validation_status": "PENDING_NATIVE_REVIEW"
+    }
+  ],
+  "number_rules": {
+    "currency_word": "franka CFA",
+    "connector": "na",
+    "units": {
+      "0": "titi", "1": "ewɔ", "2": "beba", "3": "belalo", "4": "benei",
+      "5": "betanu", "6": "mutoba", "7": "samba", "8": "lɔmbi", "9": "dibuwa"
+    },
+    "tens": {
+      "10": "dôm", "20": "maba", "30": "malalo", "40": "manei",
+      "50": "matanu", "60": "mutoba ma dôm", "70": "samba la dôm",
+      "80": "lɔmbi la dôm", "90": "dibuwa la dôm"
+    },
+    "hundred": "ebwea",
+    "thousand": "ikoli",
+    "million": "milion"
+  }
+}
+

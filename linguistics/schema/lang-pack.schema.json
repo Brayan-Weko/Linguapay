@@ -1,0 +1,161 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://linguapay.safinum.cm/schemas/lang-pack.schema.json",
+  "title": "LinguaPay Language Pack Schema",
+  "description": "Schéma normé des glossaires financiers, templates transactionnels et règles de verbalisation numérique pour les langues nationales du Cameroun.",
+  "type": "object",
+  "required": [
+    "language",
+    "display_name",
+    "iso_639_3",
+    "region_cm",
+    "version",
+    "negation_markers",
+    "entries",
+    "templates",
+    "number_rules"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "language": {
+      "type": "string",
+      "pattern": "^[a-z_]+$"
+    },
+    "display_name": {
+      "type": "string",
+      "minLength": 2
+    },
+    "iso_639_3": {
+      "type": "string",
+      "pattern": "^[a-z]{3}$"
+    },
+    "region_cm": {
+      "type": "string"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "negation_markers": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "entries": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "criticality",
+          "fr",
+          "en",
+          "translation",
+          "back_translation_fr",
+          "validation_status",
+          "validated_by"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^FIN_[A-Z]+_\\d{3}$"
+          },
+          "criticality": {
+            "type": "string",
+            "enum": [
+              "L1_CRITICAL_SECURITY",
+              "L2_TRANSACTION_CORE",
+              "L3_ERRORS",
+              "L4_UI_NAVIGATION"
+            ]
+          },
+          "fr": {
+            "type": "array",
+            "minItems": 1,
+            "items": { "type": "string", "minLength": 1 }
+          },
+          "en": {
+            "type": "array",
+            "minItems": 1,
+            "items": { "type": "string", "minLength": 1 }
+          },
+          "translation": {
+            "type": "string",
+            "minLength": 1
+          },
+          "back_translation_fr": {
+            "type": "string",
+            "minLength": 1
+          },
+          "audio_clip": {
+            "type": ["string", "null"]
+          },
+          "notes": {
+            "type": "string"
+          },
+          "validation_status": {
+            "type": "string",
+            "enum": ["PENDING_NATIVE_REVIEW", "BACK_TRANSLATED", "CERTIFIED"]
+          },
+          "validated_by": {
+            "type": ["string", "null"]
+          }
+        }
+      }
+    },
+    "templates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "criticality",
+          "fr_pattern",
+          "en_pattern",
+          "target_template",
+          "required_tokens",
+          "validation_status"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string", "pattern": "^TPL_[A-Z]+_\\d{3}$" },
+          "criticality": {
+            "type": "string",
+            "enum": ["L1_CRITICAL_SECURITY", "L2_TRANSACTION_CORE", "L3_ERRORS"]
+          },
+          "fr_pattern": { "type": "string", "minLength": 1 },
+          "en_pattern": { "type": "string", "minLength": 1 },
+          "target_template": { "type": "string", "minLength": 1 },
+          "required_tokens": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "validation_status": {
+            "type": "string",
+            "enum": ["PENDING_NATIVE_REVIEW", "BACK_TRANSLATED", "CERTIFIED"]
+          }
+        }
+      }
+    },
+    "number_rules": {
+      "type": "object",
+      "required": ["currency_word", "units", "tens", "hundred", "thousand", "million", "connector"],
+      "properties": {
+        "currency_word": { "type": "string" },
+        "connector": { "type": "string" },
+        "units": {
+          "type": "object"
+        },
+        "tens": {
+          "type": "object"
+        },
+        "hundred": { "type": "string" },
+        "thousand": { "type": "string" },
+        "million": { "type": "string" }
+      }
+    }
+  }
+}
+

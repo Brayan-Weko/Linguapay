@@ -1,0 +1,240 @@
+{
+  "language": "ewondo",
+  "display_name": "Ewondo (Centre / Sud)",
+  "iso_639_3": "ewo",
+  "region_cm": "Centre, Sud, Est (Yaoundé et environs)",
+  "version": "0.1.0",
+  "negation_markers": ["te", "tege", "aa", "kokoa", "abé", "ka"],
+  "entries": [
+    {
+      "id": "FIN_SEC_001",
+      "criticality": "L1_CRITICAL_SECURITY",
+      "fr": ["Attention : ne communiquez jamais votre code PIN.", "Ne partagez jamais votre code PIN avec un tiers."],
+      "en": ["Warning: never share your PIN code.", "Never disclose your secret PIN to anyone."],
+      "translation": "[À VALIDER NATIF] Keng : te wa kat mot mfe ékôd PIN woe.",
+      "back_translation_fr": "Attention : ne dis jamais ton code PIN à une autre personne.",
+      "audio_clip": "audio/ewondo/fin_sec_001.ogg",
+      "notes": "Vérifier la force impérative de la négation 'te' devant locuteur natif.",
+      "validation_status": "PENDING_NATIVE_REVIEW",
+      "validated_by": null
+    },
+    {
+      "id": "FIN_SEC_002",
+      "criticality": "L1_CRITICAL_SECURITY",
+      "fr": ["Un agent officiel ne vous demandera jamais votre mot de passe."],
+      "en": ["An official agent will never ask for your password."],
+      "translation": "[À VALIDER NATIF] Mfà ésaé aa tege sili wo ékôd woe.",
+      "back_translation_fr": "Un travailleur du service ne te demandera jamais ton code secret.",
+      "audio_clip": "audio/ewondo/fin_sec_002.ogg",
+      "validation_status": "PENDING_NATIVE_REVIEW",
+      "validated_by": null
+    },
+    {
+      "id": "FIN_BAL_001",
+      "criticality": "L2_TRANSACTION_CORE",
+      "fr": ["Solde disponible", "Votre solde disponible"],
+      "en": ["Available balance", "Your available balance"],
+      "translation": "[À VALIDER NATIF] Moni woe a ne tebe",
+      "back_translation_fr": "Ton argent qui est disponible maintenant",
+      "audio_clip": "audio/ewondo/fin_bal_001.ogg",
+      "validation_status": "PENDING_NATIVE_REVIEW",
+      "validated_by": null
+    },
+    {
+      "id": "FIN_BAL_002",
+      "criticality": "L2_TRANSACTION_CORE",
+      "fr": ["Compte courant", "Numéro de compte"],
+      "en": ["Checking account", "Account number"],
+      "translation": "[À VALIDER NATIF] Kônt ya moni",
+      "back_translation_fr": "Compte d'argent",
+      "audio_clip": "audio/ewondo/fin_bal_002.ogg",
+      "validation_status": "PENDING_NATIVE_REVIEW",
+      "validated_by": null
+    },
+    {
+      "id": "FIN_FEE_001",
+      "criticality": "L2_TRANSACTION_CORE",
+      "fr": ["Frais de transfert", "Frais de transaction", "Frais d'opération"],
+      "en": ["Transfer fee", "Transaction fee", "Operation fee"],
+      "translation": "[À VALIDER NATIF] Moni ya ésaé lôm",
+      "back_translation_fr": "L'argent du service d'envoi (frais)",
+      "audio_clip": "audio/ewondo/fin_fee_001.ogg",
+      "validation_status": "PENDING_NATIVE_REVIEW",
+      "validated_by": null
+    },
+    {
+      "id": "FIN_FEE_002",
+      "criticality": "L2_TRANSACTION_CORE",
+      "fr": ["Total à débiter", "Montant total débité"],
+      "en": ["Total to be debited", "Total amount debited"],
+      "translation": "[À VALIDER NATIF] Moni ôse ba zu vaa",
+      "back_translation_fr": "Tout l'argent qu'on va retirer au total",
+      "audio_clip": "audio/ewondo/fin_fee_002.ogg",
+      "validation_status": "PENDING_NATIVE_REVIEW",
+      "validated_by": null
+    },
+    {
+      "id": "FIN_TRF_001",
+      "criticality": "L2_TRANSACTION_CORE",
+      "fr": ["Préparer un transfert", "Envoyer de l'argent", "Nouveau transfert"],
+      "en": ["Prepare a transfer", "Send money", "New transfer"],
+      "translation": "[À VALIDER NATIF] Lôm moni",
+      "back_translation_fr": "Envoyer de l'argent",
+      "audio_clip": "audio/ewondo/fin_trf_001.ogg",
+      "validation_status": "PENDING_NATIVE_REVIEW",
+      "validated_by": null
+    },
+    {
+      "id": "FIN_TRF_002",
+      "criticality": "L2_TRANSACTION_CORE",
+      "fr": ["Bénéficiaire", "Nom du bénéficiaire", "Destinataire"],
+      "en": ["Beneficiary", "Recipient name", "Recipient"],
+      "translation": "[À VALIDER NATIF] Mot a zu nyoñ moni",
+      "back_translation_fr": "La personne qui va recevoir l'argent",
+      "audio_clip": "audio/ewondo/fin_trf_002.ogg",
+      "validation_status": "PENDING_NATIVE_REVIEW",
+      "validated_by": null
+    },
+    {
+      "id": "FIN_TRF_003",
+      "criticality": "L2_TRANSACTION_CORE",
+      "fr": ["Montant à envoyer", "Montant"],
+      "en": ["Amount to send", "Amount"],
+      "translation": "[À VALIDER NATIF] Abim moni",
+      "back_translation_fr": "La quantité / somme d'argent",
+      "audio_clip": "audio/ewondo/fin_trf_003.ogg",
+      "validation_status": "PENDING_NATIVE_REVIEW",
+      "validated_by": null
+    },
+    {
+      "id": "FIN_TRF_004",
+      "criticality": "L2_TRANSACTION_CORE",
+      "fr": ["Récapitulatif avant confirmation", "Récapitulatif de l'opération"],
+      "en": ["Summary before confirmation", "Transaction summary"],
+      "translation": "[À VALIDER NATIF] Mbamba nkañane ôsu ya ékañese",
+      "back_translation_fr": "Vérification claire avant d'accepter",
+      "audio_clip": "audio/ewondo/fin_trf_004.ogg",
+      "validation_status": "PENDING_NATIVE_REVIEW",
+      "validated_by": null
+    },
+    {
+      "id": "FIN_ERR_001",
+      "criticality": "L3_ERRORS",
+      "fr": ["Solde insuffisant pour effectuer cette opération.", "Solde insuffisant"],
+      "en": ["Insufficient balance to complete this transaction.", "Insufficient balance"],
+      "translation": "[À VALIDER NATIF] Moni woe a ne te ke yam ésaé nyi.",
+      "back_translation_fr": "Ton argent ne suffit pas pour faire cette opération.",
+      "audio_clip": "audio/ewondo/fin_err_001.ogg",
+      "validation_status": "PENDING_NATIVE_REVIEW",
+      "validated_by": null
+    },
+    {
+      "id": "FIN_ERR_002",
+      "criticality": "L3_ERRORS",
+      "fr": ["Plafond journalier dépassé."],
+      "en": ["Daily limit exceeded."],
+      "translation": "[À VALIDER NATIF] Ô lôteya abim moni ya môs wua.",
+      "back_translation_fr": "Tu as dépassé la limite d'argent d'un jour.",
+      "audio_clip": "audio/ewondo/fin_err_002.ogg",
+      "validation_status": "PENDING_NATIVE_REVIEW",
+      "validated_by": null
+    },
+    {
+      "id": "FIN_NAV_001",
+      "criticality": "L4_UI_NAVIGATION",
+      "fr": ["Continuer", "Suivant"],
+      "en": ["Continue", "Next"],
+      "translation": "[À VALIDER NATIF] Ke ôsu",
+      "back_translation_fr": "Aller devant / continuer",
+      "audio_clip": null,
+      "validation_status": "PENDING_NATIVE_REVIEW",
+      "validated_by": null
+    },
+    {
+      "id": "FIN_NAV_002",
+      "criticality": "L4_UI_NAVIGATION",
+      "fr": ["Confirmer le transfert", "Confirmer"],
+      "en": ["Confirm transfer", "Confirm"],
+      "translation": "[À VALIDER NATIF] Kañese ésaé",
+      "back_translation_fr": "Accepter / valider l'opération",
+      "audio_clip": null,
+      "validation_status": "PENDING_NATIVE_REVIEW",
+      "validated_by": null
+    },
+    {
+      "id": "FIN_NAV_003",
+      "criticality": "L4_UI_NAVIGATION",
+      "fr": ["Annuler"],
+      "en": ["Cancel"],
+      "translation": "[À VALIDER NATIF] Jôk / Te bo",
+      "back_translation_fr": "Laisser / ne pas faire",
+      "audio_clip": null,
+      "validation_status": "PENDING_NATIVE_REVIEW",
+      "validated_by": null
+    }
+  ],
+  "templates": [
+    {
+      "id": "TPL_TRF_001",
+      "criticality": "L2_TRANSACTION_CORE",
+      "fr_pattern": "Vous allez transférer {{AMT_1}} à {{BEN_1}}. Frais : {{FEE_1}}.",
+      "en_pattern": "You are about to transfer {{AMT_1}} to {{BEN_1}}. Fee: {{FEE_1}}.",
+      "target_template": "[À VALIDER NATIF] Wa zu lôm {{AMT_1}} e be {{BEN_1}}. Moni ya ésaé : {{FEE_1}}.",
+      "required_tokens": ["{{AMT_1}}", "{{BEN_1}}", "{{FEE_1}}"],
+      "validation_status": "PENDING_NATIVE_REVIEW"
+    },
+    {
+      "id": "TPL_TRF_002",
+      "criticality": "L2_TRANSACTION_CORE",
+      "fr_pattern": "Vous allez transférer {{AMT_1}} à {{BEN_1}} ({{PHONE_1}}). Frais : {{AMT_2}}. Total à débiter : {{AMT_3}}.",
+      "en_pattern": "You are about to transfer {{AMT_1}} to {{BEN_1}} ({{PHONE_1}}). Fee: {{AMT_2}}. Total to be debited: {{AMT_3}}.",
+      "target_template": "[À VALIDER NATIF] Wa zu lôm {{AMT_1}} e be {{BEN_1}} ({{PHONE_1}}). Moni ya ésaé : {{AMT_2}}. Moni ôse ba zu vaa : {{AMT_3}}.",
+      "required_tokens": ["{{AMT_1}}", "{{BEN_1}}", "{{PHONE_1}}", "{{AMT_2}}", "{{AMT_3}}"],
+      "validation_status": "PENDING_NATIVE_REVIEW"
+    },
+    {
+      "id": "TPL_BAL_001",
+      "criticality": "L2_TRANSACTION_CORE",
+      "fr_pattern": "Solde disponible : {{AMT_1}}",
+      "en_pattern": "Available balance: {{AMT_1}}",
+      "target_template": "[À VALIDER NATIF] Moni woe a ne tebe : {{AMT_1}}",
+      "required_tokens": ["{{AMT_1}}"],
+      "validation_status": "PENDING_NATIVE_REVIEW"
+    },
+    {
+      "id": "TPL_FEE_001",
+      "criticality": "L2_TRANSACTION_CORE",
+      "fr_pattern": "Frais de transaction ({{PCT_1}})",
+      "en_pattern": "Transaction fee ({{PCT_1}})",
+      "target_template": "[À VALIDER NATIF] Moni ya ésaé lôm ({{PCT_1}})",
+      "required_tokens": ["{{PCT_1}}"],
+      "validation_status": "PENDING_NATIVE_REVIEW"
+    },
+    {
+      "id": "TPL_ACC_001",
+      "criticality": "L2_TRANSACTION_CORE",
+      "fr_pattern": "Compte courant {{ACC_1}}",
+      "en_pattern": "Checking account {{ACC_1}}",
+      "target_template": "[À VALIDER NATIF] Kônt ya moni {{ACC_1}}",
+      "required_tokens": ["{{ACC_1}}"],
+      "validation_status": "PENDING_NATIVE_REVIEW"
+    }
+  ],
+  "number_rules": {
+    "currency_word": "falang CFA",
+    "connector": "a",
+    "units": {
+      "0": "ze", "1": "fok", "2": "bè", "3": "lá", "4": "nyin",
+      "5": "tán", "6": "saman", "7": "zamgbwal", "8": "mwom", "9": "ebul"
+    },
+    "tens": {
+      "10": "awôm", "20": "mewôm mebè", "30": "mewôm melá", "40": "mewôm menyin",
+      "50": "mewôm metán", "60": "mewôm mesaman", "70": "mewôm zamgbwal",
+      "80": "mewôm mwom", "90": "mewôm ebul"
+    },
+    "hundred": "ntet",
+    "thousand": "tósen",
+    "million": "miliɔn"
+  }
+}
+

@@ -1,0 +1,113 @@
+{
+  "language": "fulfulde",
+  "display_name": "Fulfulde (Grand Nord)",
+  "iso_639_3": "fub",
+  "region_cm": "Adamaoua, Nord, Extrême-Nord",
+  "version": "0.1.0",
+  "negation_markers": ["taa", "waata", "walaa", "haa", "naa"],
+  "entries": [
+    {
+      "id": "FIN_SEC_001",
+      "criticality": "L1_CRITICAL_SECURITY",
+      "fr": ["Attention : ne communiquez jamais votre code PIN.", "Ne partagez jamais votre code PIN avec un tiers."],
+      "en": ["Warning: never share your PIN code.", "Never disclose your secret PIN to anyone."],
+      "translation": "[À VALIDER NATIF] Hakkilo : taa hokku goɗɗo koɗ PIN maada sam.",
+      "back_translation_fr": "Attention : ne donne jamais ton code PIN à quelqu'un d'autre.",
+      "audio_clip": "audio/fulfulde/fin_sec_001.ogg",
+      "validation_status": "PENDING_NATIVE_REVIEW",
+      "validated_by": null
+    },
+    {
+      "id": "FIN_BAL_001",
+      "criticality": "L2_TRANSACTION_CORE",
+      "fr": ["Solde disponible", "Votre solde disponible"],
+      "en": ["Available balance", "Your available balance"],
+      "translation": "[À VALIDER NATIF] Ceeɗe maada tawaaɗe",
+      "back_translation_fr": "Ton argent actuellement disponible",
+      "audio_clip": "audio/fulfulde/fin_bal_001.ogg",
+      "validation_status": "PENDING_NATIVE_REVIEW",
+      "validated_by": null
+    },
+    {
+      "id": "FIN_FEE_001",
+      "criticality": "L2_TRANSACTION_CORE",
+      "fr": ["Frais de transfert", "Frais de transaction", "Frais d'opération"],
+      "en": ["Transfer fee", "Transaction fee", "Operation fee"],
+      "translation": "[À VALIDER NATIF] Njoɓdi neldugol ceeɗe",
+      "back_translation_fr": "Frais d'envoi d'argent",
+      "audio_clip": "audio/fulfulde/fin_fee_001.ogg",
+      "validation_status": "PENDING_NATIVE_REVIEW",
+      "validated_by": null
+    },
+    {
+      "id": "FIN_TRF_002",
+      "criticality": "L2_TRANSACTION_CORE",
+      "fr": ["Bénéficiaire", "Nom du bénéficiaire", "Destinataire"],
+      "en": ["Beneficiary", "Recipient name", "Recipient"],
+      "translation": "[À VALIDER NATIF] Jaɓoowo ceeɗe",
+      "back_translation_fr": "Celui qui reçoit l'argent",
+      "audio_clip": "audio/fulfulde/fin_trf_002.ogg",
+      "validation_status": "PENDING_NATIVE_REVIEW",
+      "validated_by": null
+    },
+    {
+      "id": "FIN_ERR_001",
+      "criticality": "L3_ERRORS",
+      "fr": ["Solde insuffisant pour effectuer cette opération.", "Solde insuffisant"],
+      "en": ["Insufficient balance to complete this transaction.", "Insufficient balance"],
+      "translation": "[À VALIDER NATIF] Ceeɗe maada keƴaayi ngam kuugal ngal.",
+      "back_translation_fr": "Ton argent ne suffit pas pour cette opération.",
+      "audio_clip": "audio/fulfulde/fin_err_001.ogg",
+      "validation_status": "PENDING_NATIVE_REVIEW",
+      "validated_by": null
+    },
+    {
+      "id": "FIN_NAV_002",
+      "criticality": "L4_UI_NAVIGATION",
+      "fr": ["Confirmer le transfert", "Confirmer"],
+      "en": ["Confirm transfer", "Confirm"],
+      "translation": "[À VALIDER NATIF] Tabitin kuugal",
+      "back_translation_fr": "Confirmer l'opération",
+      "audio_clip": null,
+      "validation_status": "PENDING_NATIVE_REVIEW",
+      "validated_by": null
+    }
+  ],
+  "templates": [
+    {
+      "id": "TPL_BAL_001",
+      "criticality": "L2_TRANSACTION_CORE",
+      "fr_pattern": "Solde disponible : {{AMT_1}}",
+      "en_pattern": "Available balance: {{AMT_1}}",
+      "target_template": "[À VALIDER NATIF] Ceeɗe maada tawaaɗe : {{AMT_1}}",
+      "required_tokens": ["{{AMT_1}}"],
+      "validation_status": "PENDING_NATIVE_REVIEW"
+    },
+    {
+      "id": "TPL_TRF_002",
+      "criticality": "L2_TRANSACTION_CORE",
+      "fr_pattern": "Vous allez transférer {{AMT_1}} à {{BEN_1}} ({{PHONE_1}}). Frais : {{AMT_2}}. Total à débiter : {{AMT_3}}.",
+      "en_pattern": "You are about to transfer {{AMT_1}} to {{BEN_1}} ({{PHONE_1}}). Fee: {{AMT_2}}. Total to be debited: {{AMT_3}}.",
+      "target_template": "[À VALIDER NATIF] A nelday {{AMT_1}} haa {{BEN_1}} ({{PHONE_1}}). Njoɓdi : {{AMT_2}}. Ceeɗe fuu ɓe ittata : {{AMT_3}}.",
+      "required_tokens": ["{{AMT_1}}", "{{BEN_1}}", "{{PHONE_1}}", "{{AMT_2}}", "{{AMT_3}}"],
+      "validation_status": "PENDING_NATIVE_REVIEW"
+    }
+  ],
+  "number_rules": {
+    "currency_word": "farank CFA",
+    "connector": "e",
+    "units": {
+      "0": "mehre", "1": "go'o", "2": "ɗiɗi", "3": "tati", "4": "nayi",
+      "5": "jowi", "6": "joweego", "7": "joweeɗiɗi", "8": "joweetati", "9": "joweenayi"
+    },
+    "tens": {
+      "10": "sappo", "20": "noogas", "30": "cappande tati", "40": "cappande nayi",
+      "50": "cappande jowi", "60": "cappande joweego", "70": "cappande joweeɗiɗi",
+      "80": "cappande joweetati", "90": "cappande joweenayi"
+    },
+    "hundred": "temerre",
+    "thousand": "ujunere",
+    "million": "miliyon"
+  }
+}
+
