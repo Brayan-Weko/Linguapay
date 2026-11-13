@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SimuBank CM — Environnement Financier Simulé</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-logo">SB</div>
+      <div>
+        <h1>SimuBank CM</h1>
+        <small data-i18n="subtitle">Portail Bancaire Numérique de Démonstration (Environnement Simulé)</small>
+      </div>
+    </div>
+    <div class="topbar-controls">
+      <span class="sim-badge" data-i18n="simBadge">OPÉRATIONS SIMULÉES</span>
+      <button class="lang-btn active" id="btn-lang-fr" type="button">FR</button>
+      <button class="lang-btn" id="btn-lang-en" type="button">EN</button>
+      <a href="microfinance-skin.html" class="lang-btn" style="text-decoration:none;" data-i18n="altSkin">Interface Microfinance &rarr;</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Avertissement de sécurité permanent (Étape 5) -->
+    <section class="security-banner" role="alert" aria-live="polite">
+      <div style="font-size:20px;">&#9888;</div>
+      <div>
+        <strong data-i18n="secTitle">Attention : ne communiquez jamais votre code PIN.</strong>
+        <div data-i18n="secBody">Un agent officiel ne vous demandera jamais votre mot de passe ni votre code secret par téléphone ou par message.</div>
+      </div>
+    </section>
+
+    <div class="grid-main">
+      <!-- Colonne gauche : Consultation solde & historique (Étape 1) -->
+      <div>
+        <section class="card">
+          <div class="card-header">
+            <h2 data-i18n="dashTitle">Consultation de compte</h2>
+            <span style="font-size:12px; color:#64748b;" data-i18n="statusActive">Compte actif</span>
+          </div>
+
+          <div class="balance-box">
+            <div class="balance-label" data-i18n="availBalance">Solde disponible</div>
+            <div class="balance-amount" id="account-balance">145 750 FCFA</div>
+            <div class="account-num" id="account-number" data-i18n-prefix="acctPrefix">Compte courant **** 4821</div>
+          </div>
+
+          <h3 style="font-size:14px; margin:0 0 8px 0; color:#0f2942;" data-i18n="recentTitle">Dernières opérations simulées</h3>
+          <ul class="tx-list" id="tx-history">
+            <li class="tx-item">
+              <div>
+                <strong data-i18n="tx1Label">Paiement marchand — Marché Mokolo</strong>
+                <div class="tx-ref">TX-2026-9941 &bull; 10/11/2026</div>
+              </div>
+              <span style="color:#dc2626; font-weight:700;">-12 500 FCFA</span>
+            </li>
+            <li class="tx-item">
+              <div>
+                <strong data-i18n="tx2Label">Dépôt agence — Yaoundé Centre</strong>
+                <div class="tx-ref">TX-2026-9918 &bull; 08/11/2026</div>
+              </div>
+              <span style="color:#0b6e4f; font-weight:700;">+50 000 FCFA</span>
+            </li>
+          </ul>
+        </section>
+
+        <!-- Zone notifications & contenu dynamique -->
+        <section class="card">
+          <div class="card-header">
+            <h2 data-i18n="alertsTitle">Messages et alertes du service</h2>
+            <button type="button" class="btn btn-secondary" style="padding:5px 10px; font-size:12px;" id="btn-clear-alerts" data-i18n="clearBtn">Effacer</button>
+          </div>
+          <div id="service-alerts-area">
+            <div class="alert-box alert-info" data-i18n="welcomeInfo">
+              Les virements nationaux sont traités instantanément. Vérifiez toujours le montant et le bénéficiaire avant confirmation.
+            </div>
+          </div>
+          <div class="dynamic-feed" id="dynamic-feed" aria-live="polite"></div>
+        </section>
+      </div>
+
+      <!-- Colonne droite : Frais & Préparation transfert (Étapes 2, 3, 5) -->
+      <div>
+        <section class="card">
+          <div class="card-header">
+            <h2 data-i18n="transferTitle">Préparer un transfert vers un bénéficiaire</h2>
+            <span style="font-size:12px; color:#0b6e4f; font-weight:600;" data-i18n="feeRateTag">Barème : 1,5 % + 750 FCFA</span>
+          </div>
+
+          <form id="transfer-form">
+            <div class="form-group">
+              <label for="recipient-name" data-i18n="lblRecipientName">Nom du bénéficiaire</label>
+              <input id="recipient-name" type="text" value="Jean-Paul Mballa" required />
+            </div>
+
+            <div class="form-group">
+              <label for="recipient-phone" data-i18n="lblRecipientPhone">Numéro du bénéficiaire (+237)</label>
+              <input id="recipient-phone" type="tel" value="+237 699 45 12 88" required />
+            </div>
+
+            <div class="form-group">
+              <label for="transfer-amount" data-i18n="lblAmount">Montant à envoyer (FCFA)</label>
+              <input id="transfer-amount" type="number" min="500" step="100" value="50000" required />
+            </div>
+
+            <div class="form-group">
+              <label for="transfer-reason" data-i18n="lblReason">Motif de l'opération</label>
+              <input id="transfer-reason" type="text" value="Achat marchandises" />
+            </div>
+
+            <!-- Aperçu des frais en direct (Étape 2) -->
+            <div class="fee-preview" id="fee-preview-box">
+              <div class="fee-row">
+                <span data-i18n="feePrincipal">Montant principal</span>
+                <strong id="preview-principal">50 000 FCFA</strong>
+              </div>
+              <div class="fee-row">
+                <span data-i18n="feeLabel">Frais de transaction (3,00 %)</span>
+                <strong id="preview-fee">1 500 FCFA</strong>
+              </div>
+              <div class="fee-row total">
+                <span data-i18n="totalDebit">Total à débiter</span>
+                <span id="preview-total">51 500 FCFA</span>
+              </div>
+            </div>
+
+            <div class="btn-row">
+              <button type="submit" class="btn btn-primary" id="btn-prepare-transfer" data-i18n="btnContinue">Continuer</button>
+              <button type="button" class="btn btn-danger" id="btn-sim-insufficient" data-i18n="btnErrBalance">Simuler solde insuffisant</button>
+              <button type="button" class="btn btn-amber" id="btn-sim-limit" data-i18n="btnErrLimit">Simuler plafond dépassé</button>
+            </div>
+          </form>
+
+          <div id="form-error-container"></div>
+        </section>
+
+        <!-- Console Jury SAFINUM pour injecter du contenu inédit -->
+        <section class="jury-panel">
+          <h3 data-i18n="juryTitle">Console Jury SAFINUM — Injection de Contenu Inédit en Direct</h3>
+          <p style="margin:0 0 10px 0; font-size:12.5px; color:#3730a3;" data-i18n="juryDesc">
+            Permet d'introduire un message totalement nouveau dans le DOM pendant la démonstration afin de tester l'adaptation dynamique et la préservation des données.
+          </p>
+          <div class="form-group" style="margin-bottom:8px;">
+            <textarea id="jury-custom-input" rows="2" placeholder="Ex : Maintenance prévue ce dimanche de 02h00 à 04h00 : les virements internationaux seront suspendus."></textarea>
+          </div>
+          <div class="btn-row" style="margin-top:6px;">
+            <button type="button" class="btn btn-primary" style="background:#4f46e5;" id="btn-inject-custom" data-i18n="btnInject">Injecter ce message</button>
+            <button type="button" class="btn btn-secondary" id="btn-preset-maint" data-i18n="presetMaint">Préréglage : Maintenance</button>
+            <button type="button" class="btn btn-secondary" id="btn-preset-fraud" data-i18n="presetFraud">Préréglage : Alerte fraude</button>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <!-- Modale Récapitulatif avant confirmation (Étape 4) -->
+  <div class="modal-backdrop hidden" id="summary-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-card">
+      <h3 id="modal-title" data-i18n="modalTitle">Récapitulatif avant confirmation</h3>
+      <p id="modal-summary-sentence" style="background:#f8fafc; padding:12px; border-radius:8px; border:1px solid #cbd5e1; font-size:14px;"></p>
+
+      <div class="alert-box alert-info" style="margin-top:8px; margin-bottom:12px;" data-i18n="modalIrreversible">
+        Vérifiez attentivement le bénéficiaire et les frais. Une opération confirmée ne peut pas être annulée automatiquement.
+      </div>
+
+      <!-- Champ PIN factice pour prouver que LinguaPay n'y accède jamais -->
+      <div class="form-group">
+        <label for="mock-pin" data-i18n="lblPin">Code secret PIN simulé (4 chiffres)</label>
+        <input id="mock-pin" type="password" maxlength="4" placeholder="••••" autocomplete="off" />
+      </div>
+
+      <div id="modal-pin-error"></div>
+
+      <div class="btn-row" style="justify-content:flex-end;">
+        <button type="button" class="btn btn-secondary" id="btn-modal-cancel" data-i18n="btnCancel">Annuler</button>
+        <button type="button" class="btn btn-primary" id="btn-modal-confirm" data-i18n="btnConfirm">Confirmer le transfert</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
+
