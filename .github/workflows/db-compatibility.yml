@@ -15,7 +15,7 @@ jobs:
     name: "Validation Schéma JSON Draft 2020-12 & Cohérence Sémantique"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: "Configurer Python 3.13"
         uses: actions/setup-python@v5
