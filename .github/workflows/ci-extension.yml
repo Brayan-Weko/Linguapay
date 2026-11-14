@@ -2,12 +2,12 @@ name: Extension CI & Build
 
 on:
   push:
-    branches: [main, develop, staging]
+    branches: [main, dev, staging]
     paths:
       - "extension/**"
       - ".github/workflows/ci-extension.yml"
   pull_request:
-    branches: [main, develop, staging]
+    branches: [main, dev, staging]
 
 jobs:
   build-and-test:

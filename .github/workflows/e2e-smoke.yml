@@ -2,9 +2,9 @@ name: End-to-End Live Extension & API Smoke Test
 
 on:
   push:
-    branches: [main, master, develop, dev, staging]
+    branches: [main, dev, staging]
   pull_request:
-    branches: [main, master, develop, dev, staging]
+    branches: [main, dev, staging]
 
 jobs:
   e2e-smoke:

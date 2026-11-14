@@ -2,9 +2,9 @@ name: "Analyse Qualité SonarQube (Optionnel)"
 
 on:
   push:
-    branches: ["main", "master", "develop", "dev", "staging"]
+    branches: ["main", "dev", "staging"]
   pull_request:
-    branches: ["main", "master", "develop", "dev", "staging"]
+    branches: ["main", "dev", "staging"]
   workflow_dispatch:
 
 jobs:

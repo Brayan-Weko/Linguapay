@@ -2,13 +2,13 @@ name: OpenAPI Specification & Swagger Validation
 
 on:
   push:
-    branches: [main, master, develop, dev, staging]
+    branches: [main, dev, staging]
     paths:
       - 'backend/app/**'
       - 'backend/openapi.json'
       - '.github/workflows/openapi-validation.yml'
   pull_request:
-    branches: [main, master, develop, dev, staging]
+    branches: [main, dev, staging]
     paths:
       - 'backend/app/**'
       - 'backend/openapi.json'

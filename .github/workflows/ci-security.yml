@@ -2,9 +2,9 @@ name: Security & Vulnerability Audits
 
 on:
   push:
-    branches: [main, develop, staging]
+    branches: [main, dev, staging]
   pull_request:
-    branches: [main, develop, staging]
+    branches: [main, dev, staging]
   schedule:
     - cron: "0 4 * * 1" # Weekly Monday audit
 

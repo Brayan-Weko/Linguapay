@@ -2,12 +2,12 @@ name: "CI Extension Client (Bloquant)"
 
 on:
   push:
-    branches: ["main", "master", "develop", "dev", "staging"]
+    branches: ["main", "dev", "staging"]
     paths:
       - "extension/**"
       - ".github/workflows/ci-frontend.yml"
   pull_request:
-    branches: ["main", "master", "develop", "dev", "staging"]
+    branches: ["main", "dev", "staging"]
     paths:
       - "extension/**"
       - ".github/workflows/ci-frontend.yml"

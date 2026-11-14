@@ -2,12 +2,12 @@ name: Extension Bundle Size & Budget Check
 
 on:
   push:
-    branches: [main, master, develop, dev, staging]
+    branches: [main, dev, staging]
     paths:
       - 'extension/**'
       - '.github/workflows/bundle-budget.yml'
   pull_request:
-    branches: [main, master, develop, dev, staging]
+    branches: [main, dev, staging]
     paths:
       - 'extension/**'
       - '.github/workflows/bundle-budget.yml'

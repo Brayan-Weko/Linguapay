@@ -2,13 +2,13 @@ name: Backend CI & Security
 
 on:
   push:
-    branches: [main, develop, staging]
+    branches: [main, dev, staging]
     paths:
       - "backend/**"
       - "linguistics/**"
       - ".github/workflows/ci-backend.yml"
   pull_request:
-    branches: [main, develop, staging]
+    branches: [main, dev, staging]
 
 jobs:
   test:

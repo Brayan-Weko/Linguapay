@@ -2,9 +2,9 @@ name: "Audit de Sécurité & Dépendances (Bloquant)"
 
 on:
   push:
-    branches: ["main", "master", "develop", "dev", "staging"]
+    branches: ["main", "dev", "staging"]
   pull_request:
-    branches: ["main", "master", "develop", "dev", "staging"]
+    branches: ["main", "dev", "staging"]
   schedule:
     # Analyse hebdomadaire de sécurité chaque lundi à 04:00 UTC
     - cron: "0 4 * * 1"

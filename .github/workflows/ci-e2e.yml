@@ -2,9 +2,9 @@ name: End-to-End Integration (Playwright)
 
 on:
   push:
-    branches: [main, develop, staging]
+    branches: [main, dev, staging]
   pull_request:
-    branches: [main, develop, staging]
+    branches: [main, dev, staging]
 
 jobs:
   e2e:
