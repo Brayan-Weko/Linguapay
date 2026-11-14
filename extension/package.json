@@ -9,7 +9,7 @@
     "test": "vitest run"
   },
   "devDependencies": {
-    "@types/chrome": "^0.0.287",
+    "@types/chrome": "^0.3.7",
     "esbuild": "^0.25.0",
     "typescript": "^5.7.2",
     "vitest": "^3.0.0"
