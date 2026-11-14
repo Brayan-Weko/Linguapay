@@ -16,7 +16,7 @@ class Settings(BaseSettings):
     )
 
     env: str = "development"
-    host: str = "0.0.0.0"
+    host: str = "127.0.0.1"  # nosec B104 - default localhost, overridden by LINGUAPAY_HOST
     port: int = 8000
     ai_provider: str = "glossary_only"  # "gemini" | "ollama" | "auto" | "glossary_only"
     gemini_api_key: str = ""

@@ -39,4 +39,4 @@ jobs:
 
       - name: Run E2E Smoke Test
         run: |
-          python tests-e2e/run_smoke.py
+          xvfb-run --auto-servernum -- python tests-e2e/run_smoke.py

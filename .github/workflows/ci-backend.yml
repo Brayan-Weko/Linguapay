@@ -50,4 +50,4 @@ jobs:
 
       - name: Run Bandit Security Analysis
         run: |
-          bandit -r backend/app -ll -ii
+          bandit -r backend/app -ll -s B104

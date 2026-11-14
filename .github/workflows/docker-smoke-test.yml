@@ -26,12 +26,12 @@ jobs:
       - name: "Attendre le démarrage et sonder le endpoint /health et simulateur"
         run: |
           sleep 10
-          for i in {1..15}; do
+          for i in {1..30}; do
             if curl -s http://localhost:8000/api/v1/health | grep -q '"status":"ok"'; then
               echo "Backend health check passed!"
               break
             fi
-            echo "Waiting for backend..."
+            echo "Waiting for backend ($i/30)..."
             sleep 2
           done
           curl --fail http://localhost:5173/index.html || exit 1

@@ -39,13 +39,20 @@ def main() -> int:
         with sync_playwright() as p:
             with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as user_data:
                 channel = "msedge" if os.name == "nt" else None
+                is_linux = os.name != "nt"
+                browser_args = [
+                    "--no-sandbox",
+                    "--disable-setuid-sandbox",
+                    "--disable-gpu",
+                    "--disable-dev-shm-usage",
+                    f"--disable-extensions-except={EXT_DIST}",
+                    f"--load-extension={EXT_DIST}",
+                ]
+
                 launch_kwargs = {
                     "user_data_dir": user_data,
-                    "headless": True,
-                    "args": [
-                        f"--disable-extensions-except={EXT_DIST}",
-                        f"--load-extension={EXT_DIST}",
-                    ],
+                    "headless": False if is_linux else True,
+                    "args": browser_args,
                 }
                 if channel:
                     launch_kwargs["channel"] = channel
@@ -55,10 +62,15 @@ def main() -> int:
                 errs: list[str] = []
                 page.on("pageerror", lambda e: errs.append(str(e)))
 
-                # 1. SimuBank load & overlay check
+                # 1. SimuBank load & overlay check with retry polling
                 page.goto("http://127.0.0.1:5174/index.html", wait_until="networkidle")
-                time.sleep(1.2)
-                has_host = page.evaluate("() => Boolean(document.getElementById('linguapay-shadow-host'))")
+                has_host = False
+                for _ in range(25):
+                    has_host = page.evaluate("() => Boolean(document.getElementById('linguapay-shadow-host'))")
+                    if has_host:
+                        break
+                    time.sleep(0.4)
+
                 assert has_host, "LinguaPay shadow host overlay not mounted in DOM!"
                 assert "145 750 FCFA" in page.inner_text("#account-balance")
 

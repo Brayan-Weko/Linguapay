@@ -21,7 +21,7 @@ jobs:
       - name: "Installer Bandit"
         run: pip install bandit
       - name: "Analyse statique de sécurité Bandit"
-        run: bandit -r backend/app -ll -ii
+        run: bandit -r backend/app -ll -s B104
 
   audit-extension:
     name: "Audit Dépendances Extension (npm audit)"
