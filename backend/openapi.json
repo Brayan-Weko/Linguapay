@@ -1,0 +1,1291 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "LinguaPay Core API — Documentation Interactive Swagger",
+    "summary": "Couche d'adaptation linguistique et vocale sécurisée pour services financiers camerounais (SAFINUM 2026)",
+    "description": "\n## 🏛️ Présentation de LinguaPay Core API\n\n**LinguaPay** est la couche d'adaptation linguistique et vocale sécurisée conçue pour le **SAFINUM Innovate Challenge 2026** (Comité National Économique et Financier - CNEF Cameroun).\n\nElle permet d'adapter instantanément n'importe quel service financier numérique (banque en ligne, microfinance, portefeuille mobile) dans les langues nationales camerounaises (**Ewondo**, **Duala**, **Fulfulde**) **sans modifier une seule ligne du code source hôte**.\n\n---\n\n### 🛡️ Piliers Techniques Clés\n\n1. **Bouclier Financier Déterministe (`EntityShield`)** :\n   - Verrouille 100 % des données critiques (montants FCFA, pourcentages de frais, numéros de téléphone +237, noms de bénéficiaires) dans des jetons syntaxiques immuables (`{{AMT_1}}`, `{{BEN_1}}`, etc.).\n   - Aucun montant financier n'est exposé à une déformation.\n\n2. **Moteur Hybride à 3 Niveaux & Circuit-Breaker** :\n   - **Niveau 1 — Glossaire Certifié Natif** : Résolution locale ultra-rapide (< 5 ms) basée sur les dictionnaires homologués par des locuteurs natifs.\n   - **Niveau 2 — Patrons Paramétrés (`TemplateEngine`)** : Compilation déterministe des phrases transactionnelles complexes avec variables liées.\n   - **Niveau 3 — IA Contrainte (`AITranslator`)** : Traitement temps réel des messages inédits avec validation d'invariance obligatoire.\n   - **Garde-Fou Circuit-Breaker** : Restauration automatique du texte source en cas d'anomalie détectée (chiffre inventé, placeholder manquant, altération de sécurité).\n\n3. **Pont Universel Multi-Langues (`UniversalPivotBridge`)** :\n   - Détection automatique de 9 langues sources étrangères (Espagnol, Allemand, Portugais, Italien, Swahili, Arabe, Chinois, Russe, Turc) et pivot vers l'anglais canonique avant adaptation dans les langues camerounaises.\n\n4. **Synthèse Vocale & Verbalisation FCFA (`NumberComposer`)** :\n   - Composition grammaticale récursive des nombres de 0 à 999 999 999 FCFA en Ewondo, Duala et Fulfulde.\n   - Séquençage audio WebAudio fluide avec capsules PCM 22 050 Hz et fondu croisé (*crossfade*) de 25 ms.\n\n5. **Politique Zero-PII Egress** :\n   - Aucune donnée personnelle réelle (PIN, mot de passe, coordonnées réelles) n'est enregistrée dans les journaux d'audit.\n\n---\n\n### 🧪 Guide d'Utilisation Swagger UI\n\nVous pouvez tester immédiatement chaque route directement depuis cette interface interactive :\n- Cliquez sur une route ci-dessous (ex : **`POST /api/v1/translate`**).\n- Cliquez sur le bouton **« Try it out »**.\n- Le corps de la requête est pré-rempli avec des données réelles de test.\n- Cliquez sur **« Execute »** pour visualiser la réponse HTTP 200 en direct.\n",
+    "contact": {
+      "name": "Équipe Projet LinguaPay — SAFINUM Innovate Challenge 2026",
+      "url": "https://github.com/placeholder/linguapay",
+      "email": "contact@linguapay.cm"
+    },
+    "license": {
+      "name": "Licence MIT — Développé pour le CNEF Cameroun",
+      "url": "https://opensource.org/licenses/MIT"
+    },
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/api/v1/glossary/{lang}": {
+      "get": {
+        "tags": [
+          "glossary"
+        ],
+        "summary": "Consultation du pack linguistique certifié (avec en-tête ETag)",
+        "description": "Renvoie l'ensemble du dictionnaire linguistique pour une langue nationale camerounaise donnée (Ewondo, Duala, Fulfulde). Inclut les entrées de Niveau 1, les patrons de Niveau 2, les marqueurs de négation et les tables lexicales pour la verbalisation des montants en FCFA. L'en-tête HTTP 'ETag' permet un cache navigateur optimal.",
+        "operationId": "get_glossary_api_v1_glossary__lang__get",
+        "parameters": [
+          {
+            "name": "lang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Code de la langue à consulter (ewondo, duala, fulfulde)",
+              "examples": [
+                "ewondo"
+              ],
+              "title": "Lang"
+            },
+            "description": "Code de la langue à consulter (ewondo, duala, fulfulde)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Pack linguistique complet avec règles de verbalisation et patrons paramétrés.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GlossaryPackResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/audit/recent": {
+      "get": {
+        "tags": [
+          "glossary"
+        ],
+        "summary": "Journal d'audit en temps réel (100% anonymisé Zero-PII)",
+        "description": "Permet aux auditeurs de sécurité et aux membres du jury de vérifier en direct que le bouclier fonctionne conformément à la Section 9 du règlement SAFINUM. Seuls les squelettes syntaxiques masqués ({{AMT_1}}, {{BEN_1}}) sont consignés, sans aucune donnée personnelle réelle.",
+        "operationId": "get_recent_audit_api_v1_audit_recent_get",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 200,
+              "minimum": 1,
+              "description": "Nombre maximum d'enregistrements d'audit à renvoyer (entre 1 et 200)",
+              "examples": [
+                50
+              ],
+              "default": 50,
+              "title": "Limit"
+            },
+            "description": "Nombre maximum d'enregistrements d'audit à renvoyer (entre 1 et 200)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Dernières transactions d'adaptation enregistrées en mémoire vive.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuditRecentResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/translate": {
+      "post": {
+        "tags": [
+          "translate"
+        ],
+        "summary": "Traduction unitaire sécurisée avec EntityShield & Circuit-Breaker",
+        "description": "Adapte une phrase financière dans la langue nationale choisie (Ewondo, Duala, Fulfulde). Exécute le bouclier déterministe EntityShield, pivote si nécessaire via UniversalPivotBridge, résout via le Glossaire L1, les Patrons L2 ou l'IA contrainte L3, puis vérifie la bijection mathématique stricte.",
+        "operationId": "translate_single_api_v1_translate_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SingleTranslateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Résultat d'adaptation contenant le texte masqué, le texte réinjecté sans altération et les métadonnées de vérification.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TranslateItemResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/translate/batch": {
+      "post": {
+        "tags": [
+          "translate"
+        ],
+        "summary": "Traduction groupée sécurisée par lots (Batch DOM)",
+        "description": "Permet à l'extension navigateur ou au client API d'adapter simultanément jusqu'à 200 segments DOM en une seule requête HTTP.",
+        "operationId": "translate_batch_api_v1_translate_batch_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TranslateBatchRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Ensemble ordonné des segments adaptés avec statuts de vérification d'intégrité individuels.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TranslateBatchResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tts/sequence": {
+      "post": {
+        "tags": [
+          "tts"
+        ],
+        "summary": "Calcul d'une playlist audio avec verbalisation grammaticale des montants FCFA",
+        "description": "Prend en entrée une chaîne financière (solde, frais, récapitulatif), extrait et verbalise tous les montants monétaires en FCFA selon la grammaire de la langue nationale (Ewondo, Duala, Fulfulde), et génère la liste des capsules sonores prêtes à être enchaînées par le lecteur WebAudio avec un fondu croisé de 25 ms.",
+        "operationId": "get_audio_sequence_api_v1_tts_sequence_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TTSSequenceRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Transcription complète et liste des capsules audio ordonnées avec durées estimées.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TTSSequenceResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tts/capsule/{lang}/{clip_name}": {
+      "get": {
+        "tags": [
+          "tts"
+        ],
+        "summary": "Diffusion ou téléchargement d'une capsule audio WAV (PCM 22 050 Hz 16-bit)",
+        "description": "Sert une capsule sonore au format WAV. Si le fichier physique pré-enregistré existe dans `linguistics/audio/{lang}/`, il est diffusé directement ; sinon, une capsule harmonique déterministe est synthétisée dynamiquement en mémoire avec enveloppe anti-clic et mise en cache disque.",
+        "operationId": "serve_audio_capsule_api_v1_tts_capsule__lang___clip_name__get",
+        "parameters": [
+          {
+            "name": "lang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Lang"
+            }
+          },
+          {
+            "name": "clip_name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Clip Name"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Fichier audio PCM WAV 22 050 Hz mono.",
+            "content": {
+              "application/json": {
+                "schema": {}
+              },
+              "audio/wav": {}
+            }
+          },
+          "404": {
+            "description": "Langue ou capsule inexistante."
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/health": {
+      "get": {
+        "tags": [
+          "health"
+        ],
+        "summary": "État de santé et catalogue des langues nationales",
+        "description": "Vérifie le bon fonctionnement de l'API LinguaPay Core, les paramètres de sécurité (Zero-PII, Circuit-Breaker) et liste dynamiquement les langues camerounaises chargées en mémoire avec leurs versions et empreintes ETag.",
+        "operationId": "health_api_v1_health_get",
+        "responses": {
+          "200": {
+            "description": "Rapport de santé complet et catalogue des packs linguistiques disponibles.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AuditRecentResponse": {
+        "properties": {
+          "records": {
+            "items": {
+              "$ref": "#/components/schemas/AuditRecordItem"
+            },
+            "type": "array",
+            "title": "Records",
+            "description": "Historique des dernières adaptations réalisées"
+          }
+        },
+        "type": "object",
+        "required": [
+          "records"
+        ],
+        "title": "AuditRecentResponse"
+      },
+      "AuditRecordItem": {
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "title": "Timestamp",
+            "description": "Horodatage ISO UTC de l'événement",
+            "examples": [
+              "2026-11-14T07:25:00.123456+00:00"
+            ]
+          },
+          "request_id": {
+            "type": "string",
+            "title": "Request Id",
+            "description": "Identifiant de transaction unique",
+            "examples": [
+              "req_a1b2c3d4e5"
+            ]
+          },
+          "segment_id": {
+            "type": "string",
+            "title": "Segment Id",
+            "description": "Identifiant du segment DOM",
+            "examples": [
+              "seg_solde"
+            ]
+          },
+          "target_lang": {
+            "type": "string",
+            "title": "Target Lang",
+            "description": "Langue nationale cible",
+            "examples": [
+              "ewondo"
+            ]
+          },
+          "tier_used": {
+            "type": "string",
+            "title": "Tier Used",
+            "description": "Moteur de résolution utilisé (GLOSSARY_L1, TEMPLATE_L2, AI_CONSTRAINED_L3, etc.)",
+            "examples": [
+              "TEMPLATE_L2"
+            ]
+          },
+          "masked_sha256": {
+            "type": "string",
+            "title": "Masked Sha256",
+            "description": "Empreinte SHA-256 tronquée du texte masqué (Zéro-PII)",
+            "examples": [
+              "380ab3903aed"
+            ]
+          },
+          "token_count": {
+            "type": "integer",
+            "title": "Token Count",
+            "description": "Nombre d'entités financières protégées",
+            "examples": [
+              1
+            ]
+          },
+          "integrity_passed": {
+            "type": "boolean",
+            "title": "Integrity Passed",
+            "description": "Indique si le contrôle mathématique d'intégrité a été validé",
+            "examples": [
+              true
+            ]
+          },
+          "verification_reason": {
+            "type": "string",
+            "title": "Verification Reason",
+            "description": "Motif détaillé du verdict de sécurité",
+            "examples": [
+              "OK"
+            ]
+          },
+          "fallback_triggered": {
+            "type": "boolean",
+            "title": "Fallback Triggered",
+            "description": "Indique si le Circuit-Breaker s'est activé",
+            "examples": [
+              false
+            ]
+          },
+          "latency_ms": {
+            "type": "number",
+            "title": "Latency Ms",
+            "description": "Durée de traitement en millisecondes",
+            "examples": [
+              0.29
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "timestamp",
+          "request_id",
+          "segment_id",
+          "target_lang",
+          "tier_used",
+          "masked_sha256",
+          "token_count",
+          "integrity_passed",
+          "verification_reason",
+          "fallback_triggered",
+          "latency_ms"
+        ],
+        "title": "AuditRecordItem"
+      },
+      "GlossaryPackResponse": {
+        "properties": {
+          "language": {
+            "type": "string",
+            "title": "Language",
+            "description": "Code normalisé de la langue",
+            "examples": [
+              "ewondo"
+            ]
+          },
+          "display_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Display Name",
+            "description": "Nom complet et zone géographique",
+            "examples": [
+              "Ewondo (Centre / Sud)"
+            ]
+          },
+          "iso_639_3": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Iso 639 3",
+            "description": "Code ISO 639-3",
+            "examples": [
+              "ewo"
+            ]
+          },
+          "version": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Version",
+            "description": "Version du pack",
+            "examples": [
+              "0.2.0"
+            ]
+          },
+          "etag": {
+            "type": "string",
+            "title": "Etag",
+            "description": "Empreinte cryptographique MD5 du dictionnaire",
+            "examples": [
+              "c8a4b2e91f07"
+            ]
+          },
+          "negation_markers": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Negation Markers",
+            "description": "Marqueurs de négation grammaticale pour le Circuit-Breaker",
+            "examples": [
+              [
+                "te",
+                "tege",
+                "aa",
+                "kokoa",
+                "abé"
+              ]
+            ]
+          },
+          "entries": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Entries",
+            "description": "Liste des entrées lexicales Niveau 1"
+          },
+          "templates": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Templates",
+            "description": "Liste des patrons transactionnels Niveau 2"
+          },
+          "number_rules": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Number Rules",
+            "description": "Règles de verbalisation grammaticale des nombres FCFA"
+          }
+        },
+        "type": "object",
+        "required": [
+          "language",
+          "display_name",
+          "iso_639_3",
+          "version",
+          "etag",
+          "negation_markers",
+          "entries",
+          "templates",
+          "number_rules"
+        ],
+        "title": "GlossaryPackResponse"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "HealthResponse": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "description": "Statut global du service",
+            "examples": [
+              "ok"
+            ]
+          },
+          "service": {
+            "type": "string",
+            "title": "Service",
+            "description": "Nom du microservice",
+            "examples": [
+              "linguapay-core"
+            ]
+          },
+          "version": {
+            "type": "string",
+            "title": "Version",
+            "description": "Version applicative",
+            "examples": [
+              "1.0.0"
+            ]
+          },
+          "ai_provider": {
+            "type": "string",
+            "title": "Ai Provider",
+            "description": "Fournisseur d'IA actif pour le Niveau 3 (glossary_only, gemini, ollama, auto)",
+            "examples": [
+              "glossary_only"
+            ]
+          },
+          "strict_verifier": {
+            "type": "boolean",
+            "title": "Strict Verifier",
+            "description": "Activation du Circuit-Breaker strict sur anomalie d'invariance",
+            "examples": [
+              true
+            ]
+          },
+          "zero_pii_logging": {
+            "type": "boolean",
+            "title": "Zero Pii Logging",
+            "description": "Politique Zero-PII garantissant l'absence de données personnelles dans les logs",
+            "examples": [
+              true
+            ]
+          },
+          "languages": {
+            "items": {
+              "$ref": "#/components/schemas/LanguageCatalogItem"
+            },
+            "type": "array",
+            "title": "Languages",
+            "description": "Catalogue des packs linguistiques disponibles"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "service",
+          "version",
+          "ai_provider",
+          "strict_verifier",
+          "zero_pii_logging",
+          "languages"
+        ],
+        "title": "HealthResponse"
+      },
+      "LanguageCatalogItem": {
+        "properties": {
+          "language": {
+            "type": "string",
+            "title": "Language",
+            "description": "Code normalisé de la langue (ex: ewondo, duala, fulfulde)",
+            "examples": [
+              "ewondo"
+            ]
+          },
+          "display_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Display Name",
+            "description": "Nom d'usage et région pilote",
+            "examples": [
+              "Ewondo (Centre / Sud)"
+            ]
+          },
+          "iso_639_3": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Iso 639 3",
+            "description": "Code ISO 639-3 officiel",
+            "examples": [
+              "ewo"
+            ]
+          },
+          "etag": {
+            "type": "string",
+            "title": "Etag",
+            "description": "Empreinte cryptographique MD5 du dictionnaire",
+            "examples": [
+              "a1b2c3d4e5f6"
+            ]
+          },
+          "entries_count": {
+            "type": "integer",
+            "title": "Entries Count",
+            "description": "Nombre d'entrées lexicales homologuées (Niveau 1)",
+            "examples": [
+              15
+            ]
+          },
+          "templates_count": {
+            "type": "integer",
+            "title": "Templates Count",
+            "description": "Nombre de patrons transactionnels paramétrés (Niveau 2)",
+            "examples": [
+              5
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "language",
+          "display_name",
+          "iso_639_3",
+          "etag",
+          "entries_count",
+          "templates_count"
+        ],
+        "title": "LanguageCatalogItem"
+      },
+      "SingleTranslateRequest": {
+        "properties": {
+          "target_lang": {
+            "type": "string",
+            "title": "Target Lang",
+            "description": "Langue nationale cible (ewondo, duala, fulfulde)",
+            "examples": [
+              "ewondo"
+            ]
+          },
+          "source_lang": {
+            "type": "string",
+            "title": "Source Lang",
+            "description": "Langue source (auto, fr, en, es, de, pt, it, zh, ar, etc.)",
+            "default": "auto",
+            "examples": [
+              "auto"
+            ]
+          },
+          "masked_text": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Masked Text",
+            "description": "Texte avec variables pré-masquées par EntityShield (optionnel si 'text' est fourni)",
+            "examples": [
+              "Moni woe a ne tebe : {{AMT_1}}"
+            ]
+          },
+          "text": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Text",
+            "description": "Texte brut bancaire à sécuriser et traduire",
+            "examples": [
+              "Solde disponible : 145 750 FCFA"
+            ]
+          },
+          "entity_types": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Entity Types",
+            "description": "Types des entités financières masquées",
+            "examples": [
+              {
+                "{{AMT_1}}": "AMOUNT_FCFA"
+              }
+            ]
+          },
+          "criticality": {
+            "type": "string",
+            "title": "Criticality",
+            "description": "Niveau de criticité financière (FINANCIAL_CORE, L1_CRITICAL_SECURITY, L2_TRANSACTION_CORE, UI_NAV)",
+            "default": "FINANCIAL_CORE",
+            "examples": [
+              "FINANCIAL_CORE"
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "target_lang"
+        ],
+        "title": "SingleTranslateRequest",
+        "examples": [
+          {
+            "criticality": "FINANCIAL_CORE",
+            "source_lang": "auto",
+            "target_lang": "ewondo",
+            "text": "Solde disponible : 145 750 FCFA"
+          },
+          {
+            "criticality": "FINANCIAL_CORE",
+            "source_lang": "es",
+            "target_lang": "duala",
+            "text": "Saldo disponible : 50 000 FCFA"
+          },
+          {
+            "criticality": "FINANCIAL_CORE",
+            "source_lang": "fr",
+            "target_lang": "fulfulde",
+            "text": "Vous allez transférer 50 000 FCFA à Jean-Paul Mballa (+237 699 45 12 88). Frais : 1 500 FCFA. Total à débiter : 51 500 FCFA."
+          }
+        ]
+      },
+      "TTSPlaylistItem": {
+        "properties": {
+          "clip_id": {
+            "type": "string",
+            "title": "Clip Id",
+            "description": "Identifiant de la capsule sonore",
+            "examples": [
+              "fin_bal_001"
+            ]
+          },
+          "audio_url": {
+            "type": "string",
+            "title": "Audio Url",
+            "description": "URL relative pour récupérer le flux binaire WAV",
+            "examples": [
+              "/api/v1/tts/capsule/ewondo/fin_bal_001.wav"
+            ]
+          },
+          "label": {
+            "type": "string",
+            "title": "Label",
+            "description": "Libellé textuel correspondant au segment",
+            "examples": [
+              "Moni woe a ne tebe"
+            ]
+          },
+          "duration_estimate_ms": {
+            "type": "integer",
+            "title": "Duration Estimate Ms",
+            "description": "Estimation de la durée en millisecondes pour synchronisation",
+            "examples": [
+              1200
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "clip_id",
+          "audio_url",
+          "label",
+          "duration_estimate_ms"
+        ],
+        "title": "TTSPlaylistItem"
+      },
+      "TTSSequenceRequest": {
+        "properties": {
+          "target_lang": {
+            "type": "string",
+            "title": "Target Lang",
+            "description": "Langue nationale pour la lecture vocale (ewondo, duala, fulfulde)",
+            "examples": [
+              "ewondo"
+            ]
+          },
+          "text": {
+            "type": "string",
+            "maxLength": 1000,
+            "minLength": 1,
+            "title": "Text",
+            "description": "Texte financier à verbaliser (avec ou sans montants en FCFA)",
+            "examples": [
+              "Solde disponible : 145 750 FCFA"
+            ]
+          },
+          "audio_clip": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Audio Clip",
+            "description": "Lien direct optionnel vers une capsule audio spécifique du glossaire",
+            "examples": [
+              "audio/ewondo/fin_bal_001.ogg"
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "target_lang",
+          "text"
+        ],
+        "title": "TTSSequenceRequest",
+        "examples": [
+          {
+            "target_lang": "ewondo",
+            "text": "Solde disponible : 145 750 FCFA"
+          },
+          {
+            "target_lang": "duala",
+            "text": "Vous allez transférer 50 000 FCFA à Jean-Paul Mballa (+237 699 45 12 88). Frais : 1 500 FCFA. Total à débiter : 51 500 FCFA."
+          },
+          {
+            "target_lang": "fulfulde",
+            "text": "Solde disponible : 82 400 FCFA"
+          }
+        ]
+      },
+      "TTSSequenceResponse": {
+        "properties": {
+          "target_lang": {
+            "type": "string",
+            "title": "Target Lang",
+            "description": "Langue nationale cible",
+            "examples": [
+              "ewondo"
+            ]
+          },
+          "full_transcript": {
+            "type": "string",
+            "title": "Full Transcript",
+            "description": "Transcription complète en langage naturel",
+            "examples": [
+              "Moni woe a ne tebe : tósen ntet a mewôm menyin a tán a ntet zamgbwal a mewôm metán falang CFA"
+            ]
+          },
+          "total_duration_estimate_ms": {
+            "type": "integer",
+            "title": "Total Duration Estimate Ms",
+            "description": "Durée estimée totale de la séquence audio en millisecondes",
+            "examples": [
+              3400
+            ]
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/TTSPlaylistItem"
+            },
+            "type": "array",
+            "title": "Items",
+            "description": "Liste ordonnée des capsules audio à lire séquentiellement avec crossfade 25 ms"
+          }
+        },
+        "type": "object",
+        "required": [
+          "target_lang",
+          "full_transcript",
+          "total_duration_estimate_ms",
+          "items"
+        ],
+        "title": "TTSSequenceResponse"
+      },
+      "TranslateBatchRequest": {
+        "properties": {
+          "target_lang": {
+            "type": "string",
+            "title": "Target Lang",
+            "description": "Langue nationale camerounaise cible (ewondo, duala, fulfulde)",
+            "examples": [
+              "ewondo"
+            ]
+          },
+          "source_lang": {
+            "type": "string",
+            "title": "Source Lang",
+            "description": "Langue source du texte bancaire (auto, fr, en, es, de, pt, it, zh, ar, etc.)",
+            "default": "auto",
+            "examples": [
+              "auto"
+            ]
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/TranslateItemRequest"
+            },
+            "type": "array",
+            "maxItems": 200,
+            "minItems": 1,
+            "title": "Items",
+            "description": "Liste ordonnée des segments textuels à adapter (maximum 200 par lot)"
+          }
+        },
+        "type": "object",
+        "required": [
+          "target_lang",
+          "items"
+        ],
+        "title": "TranslateBatchRequest",
+        "examples": [
+          {
+            "items": [
+              {
+                "criticality": "FINANCIAL_CORE",
+                "id": "seg_solde",
+                "text": "Solde disponible : 145 750 FCFA"
+              },
+              {
+                "criticality": "FINANCIAL_CORE",
+                "id": "seg_frais",
+                "text": "Frais de transfert : 1 500 FCFA"
+              },
+              {
+                "criticality": "L1_CRITICAL_SECURITY",
+                "id": "seg_alerte",
+                "text": "Attention : ne communiquez jamais votre code PIN."
+              }
+            ],
+            "source_lang": "auto",
+            "target_lang": "ewondo"
+          }
+        ]
+      },
+      "TranslateBatchResponse": {
+        "properties": {
+          "request_id": {
+            "type": "string",
+            "title": "Request Id",
+            "description": "Identifiant unique de la transaction de lot",
+            "examples": [
+              "req_b3a7f8e12d"
+            ]
+          },
+          "target_lang": {
+            "type": "string",
+            "title": "Target Lang",
+            "description": "Langue nationale cible",
+            "examples": [
+              "ewondo"
+            ]
+          },
+          "results": {
+            "items": {
+              "$ref": "#/components/schemas/TranslateItemResponse"
+            },
+            "type": "array",
+            "title": "Results",
+            "description": "Résultats d'adaptation pour chacun des segments du lot"
+          }
+        },
+        "type": "object",
+        "required": [
+          "request_id",
+          "target_lang",
+          "results"
+        ],
+        "title": "TranslateBatchResponse"
+      },
+      "TranslateItemRequest": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "Identifiant unique du segment de texte (DOM element ID)",
+            "examples": [
+              "seg_8f1a2c3d"
+            ]
+          },
+          "masked_text": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Masked Text",
+            "description": "Texte avec placeholders EntityShield déjà verrouillés côté client (ex: {{AMT_1}})",
+            "examples": [
+              "Moni woe a ne tebe : {{AMT_1}}"
+            ]
+          },
+          "text": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Text",
+            "description": "Texte brut non masqué (le bouclier EntityShield s'exécutera automatiquement côté serveur)",
+            "examples": [
+              "Solde disponible : 145 750 FCFA"
+            ]
+          },
+          "entity_types": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Entity Types",
+            "description": "Dictionnaire des métadonnées de types d'entités verrouillées",
+            "examples": [
+              {
+                "{{AMT_1}}": "AMOUNT_FCFA"
+              }
+            ]
+          },
+          "criticality": {
+            "type": "string",
+            "title": "Criticality",
+            "description": "Niveau de criticité financière du segment (FINANCIAL_CORE, L1_CRITICAL_SECURITY, L2_TRANSACTION_CORE, UI_NAV)",
+            "default": "UI_NAV",
+            "examples": [
+              "FINANCIAL_CORE"
+            ]
+          }
+        },
+        "type": "object",
+        "title": "TranslateItemRequest"
+      },
+      "TranslateItemResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "Identifiant du segment traité",
+            "examples": [
+              "seg_solde"
+            ]
+          },
+          "translated_masked_text": {
+            "type": "string",
+            "title": "Translated Masked Text",
+            "description": "Texte adapté dans la langue nationale avec placeholders de variables préservés",
+            "examples": [
+              "[À VALIDER NATIF] Moni woe a ne tebe : {{AMT_1}}"
+            ]
+          },
+          "unlocked_text": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Unlocked Text",
+            "description": "Texte final réinjecté avec les montants et données financières réinsérées sans la moindre altération",
+            "examples": [
+              "[À VALIDER NATIF] Moni woe a ne tebe : 145 750 FCFA"
+            ]
+          },
+          "tier_used": {
+            "type": "string",
+            "title": "Tier Used",
+            "description": "Moteur de résolution employé (GLOSSARY_L1, TEMPLATE_L2, AI_CONSTRAINED_L3, PIVOT_GLOSSARY_L1, PIVOT_TEMPLATE_L2, CIRCUIT_BREAKER_FALLBACK)",
+            "examples": [
+              "TEMPLATE_L2"
+            ]
+          },
+          "confidence": {
+            "type": "number",
+            "title": "Confidence",
+            "description": "Indice de confiance de la traduction (0.0 à 1.0)",
+            "examples": [
+              1.0
+            ]
+          },
+          "integrity_passed": {
+            "type": "boolean",
+            "title": "Integrity Passed",
+            "description": "Indique si le contrôle mathématique d'invariance et de sécurité est validé",
+            "examples": [
+              true
+            ]
+          },
+          "verification_reason": {
+            "type": "string",
+            "title": "Verification Reason",
+            "description": "Détail du verdict du vérificateur d'intégrité",
+            "examples": [
+              "OK_IDENTICAL_TOKENS_AND_INTEGRITY"
+            ]
+          },
+          "fallback_triggered": {
+            "type": "boolean",
+            "title": "Fallback Triggered",
+            "description": "Vrai si le Circuit-Breaker a restauré le texte d'origine suite à une anomalie",
+            "examples": [
+              false
+            ]
+          },
+          "audio_clip": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Audio Clip",
+            "description": "Lien relatif vers la capsule audio pré-enregistrée le cas échéant",
+            "examples": [
+              "audio/ewondo/fin_bal_001.ogg"
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "translated_masked_text",
+          "tier_used",
+          "confidence",
+          "integrity_passed",
+          "verification_reason",
+          "fallback_triggered"
+        ],
+        "title": "TranslateItemResponse"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "health",
+      "description": "Surveillance opérationnelle, état de santé du moteur et découverte dynamique des packs linguistiques installés."
+    },
+    {
+      "name": "translate",
+      "description": "Endpoints d'adaptation linguistique unitaire et par lots (Batch) avec protection EntityShield et Circuit-Breaker."
+    },
+    {
+      "name": "glossary",
+      "description": "Consultation des dictionnaires terminologiques certifiés (avec support ETag) et du journal d'audit Zero-PII en direct."
+    },
+    {
+      "name": "tts",
+      "description": "Moteur vocal hybride : verbalisation des montants en FCFA, calcul de séquences de lecture et capsules audio WAV 22 kHz."
+    }
+  ]
+}

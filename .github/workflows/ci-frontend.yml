@@ -1,24 +1,24 @@
-name: "CI Frontend (Bloquant)"
+name: "CI Extension Client (Bloquant)"
 
 on:
   push:
     branches: ["main", "master", "develop", "dev", "staging"]
     paths:
-      - "frontend/**"
+      - "extension/**"
       - ".github/workflows/ci-frontend.yml"
   pull_request:
     branches: ["main", "master", "develop", "dev", "staging"]
     paths:
-      - "frontend/**"
+      - "extension/**"
       - ".github/workflows/ci-frontend.yml"
 
 concurrency:
-  group: ci-frontend-${{ github.ref }}
+  group: ci-extension-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
   typecheck-and-build:
-    name: "Vérification Frontend (TypeScript, Vite Build)"
+    name: "Vérification Extension (TypeScript, Build MV3 & Tests)"
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
@@ -30,18 +30,19 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "20.x"
-          cache: "npm"
-          cache-dependency-path: "frontend/package-lock.json"
 
-      - name: "Installer les dépendances frontend"
-        working-directory: frontend
-        run: npm ci
+      - name: "Installer les dépendances extension"
+        working-directory: extension
+        run: npm install
 
       - name: "Vérification du typage TypeScript"
-        working-directory: frontend
+        working-directory: extension
         run: npm run typecheck
 
-      - name: "Compiler l'application web pour production (Vite Build)"
-        working-directory: frontend
-        run: npm run build
+      - name: "Exécuter les tests unitaires (Vitest)"
+        working-directory: extension
+        run: npm test
 
+      - name: "Compiler l'extension MV3 pour production"
+        working-directory: extension
+        run: npm run build

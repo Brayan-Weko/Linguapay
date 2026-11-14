@@ -18,20 +18,19 @@ jobs:
         with:
           node-version: "20.x"
 
-      - name: "Vérifier le typage TypeScript frontend"
-        working-directory: frontend
-        run: |
-          npm ci
-          npm run typecheck
+      - name: "Configurer Python 3.13"
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
 
-      - name: "Vérifier le typage TypeScript backend"
-        working-directory: backend
-        run: |
-          npm ci
-          npm run db:generate
-          npm run typecheck
+      - name: "Installer dépendances extension"
+        working-directory: extension
+        run: npm install
+
+      - name: "Vérifier le typage TypeScript extension"
+        working-directory: extension
+        run: npm run typecheck
 
       - name: "Contrôler l'absence de debuggers ou console.trace"
         run: |
-          ! grep -rnE "debugger;|console\.trace\(" backend/src frontend/src
-
+          ! grep -rnE "debugger;|console\.trace\(" backend/app extension/src

@@ -4,39 +4,39 @@ on:
   push:
     paths:
       - "backend/.env.example"
-      - "backend/src/config/env.ts"
+      - "backend/app/config.py"
       - ".github/workflows/env-validation.yml"
   pull_request:
     paths:
       - "backend/.env.example"
-      - "backend/src/config/env.ts"
+      - "backend/app/config.py"
       - ".github/workflows/env-validation.yml"
 
 jobs:
   validate-env:
-    name: "Conformité .env.example / Schéma Zod"
+    name: "Conformité .env.example / Pydantic Settings"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+
+      - name: "Configurer Python 3.13"
+        uses: actions/setup-python@v5
         with:
-          node-version: "20.x"
-      - name: "Installer les dépendances backend"
-        working-directory: backend
-        run: npm ci
-      - name: "Tester le chargement d'un environnement depuis .env.example"
+          python-version: "3.13"
+
+      - name: "Installer dépendances backend"
+        run: |
+          pip install pydantic-settings python-dotenv
+
+      - name: "Tester le chargement des variables d'environnement LinguaPay"
         working-directory: backend
         run: |
-          node -e '
-            import dotenv from "dotenv";
-            import fs from "fs";
-            const parsed = dotenv.parse(fs.readFileSync(".env.example"));
-            const requiredKeys = ["JWT_SECRET", "ADMIN_JWT_SECRET", "ENCRYPTION_KEY", "PORT", "DATABASE_URL"];
-            const missing = requiredKeys.filter(k => !(k in parsed));
-            if (missing.length > 0) {
-              console.error("Clés obligatoires manquantes dans .env.example:", missing);
-              process.exit(1);
-            }
-            console.log("Validation .env.example réussie : toutes les clés fondamentales sont déclarées.");
-          '
-
+          python -c "
+          from dotenv import dotenv_values
+          vals = dotenv_values('.env.example')
+          required = ['LINGUAPAY_AI_PROVIDER', 'LINGUAPAY_PORT', 'LINGUAPAY_STRICT_VERIFIER', 'LINGUAPAY_LOG_PII']
+          missing = [k for k in required if k not in vals]
+          if missing:
+              raise ValueError(f'Missing required keys in .env.example: {missing}')
+          print('.env.example is compliant with LinguaPay Pydantic Settings.')
+          "

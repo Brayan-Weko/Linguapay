@@ -1,4 +1,4 @@
-name: "Analyse Qualité SonarQube (Non Bloquant)"
+name: "Analyse Qualité SonarQube (Optionnel)"
 
 on:
   push:
@@ -18,27 +18,25 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: "Configurer Node.js 20.x"
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20.x"
-
-      - name: "Générer la couverture de code backend"
-        working-directory: backend
+      - name: "Vérifier la présence du secret SonarQube"
+        id: check-secret
         run: |
-          npm ci
-          npm run db:generate
-          npm test -- --coverage || true
+          if [ -z "${{ secrets.SONAR_TOKEN }}" ]; then
+            echo "SONAR_TOKEN non configuré. Analyse ignorée gracieusement."
+            echo "skip=true" >> $GITHUB_OUTPUT
+          else
+            echo "skip=false" >> $GITHUB_OUTPUT
+          fi
 
       - name: "Analyse SonarQube / SonarCloud"
+        if: steps.check-secret.outputs.skip == 'false'
         uses: SonarSource/sonarqube-scan-action@v5
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
         with:
           args: >
-            -Dsonar.projectKey=jobbot-saas
-            -Dsonar.sources=backend/src,frontend/src
-            -Dsonar.tests=backend/test
-            -Dsonar.exclusions=**/node_modules/**,**/dist/**,**/*.db
-
+            -Dsonar.projectKey=linguapay-safinum
+            -Dsonar.sources=backend/app,extension/src
+            -Dsonar.tests=backend/tests
+            -Dsonar.exclusions=**/node_modules/**,**/dist/**

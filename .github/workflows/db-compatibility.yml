@@ -1,62 +1,31 @@
-name: "Compatibilité Multi-Base de Données (Bloquant)"
+name: "Compatibilité Dictionnaires Linguistiques (Bloquant)"
 
 on:
   push:
     paths:
-      - "backend/prisma/**"
-      - "backend/scripts/prisma-provider.mjs"
+      - "linguistics/**"
       - ".github/workflows/db-compatibility.yml"
   pull_request:
     paths:
-      - "backend/prisma/**"
-      - "backend/scripts/prisma-provider.mjs"
+      - "linguistics/**"
       - ".github/workflows/db-compatibility.yml"
 
 jobs:
-  verify-providers:
-    name: "Génération Schéma Multi-Fournisseurs (SQLite, Postgres, MySQL, Cockroach, Mongo)"
+  verify-linguistics:
+    name: "Validation Schéma JSON Draft 2020-12 & Cohérence Sémantique"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - name: "Configurer Node.js"
-        uses: actions/setup-node@v4
+      - name: "Configurer Python 3.13"
+        uses: actions/setup-python@v5
         with:
-          node-version: "20.x"
+          python-version: "3.13"
 
-      - name: "Installer dépendances"
-        working-directory: backend
-        run: npm ci
-
-      - name: "Tester la génération SQLite"
-        working-directory: backend
-        env:
-          DATABASE_URL: "file:./ci.db"
+      - name: "Installer dépendances de validation"
         run: |
-          node scripts/prisma-provider.mjs sqlite
-          npx prisma validate
+          pip install jsonschema
 
-      - name: "Tester la génération PostgreSQL"
-        working-directory: backend
-        env:
-          DATABASE_URL: "postgresql://user:pass@localhost:5432/jobbot?schema=public"
+      - name: "Valider les packs Ewondo, Duala et Fulfulde"
         run: |
-          node scripts/prisma-provider.mjs postgresql
-          npx prisma validate
-
-      - name: "Tester la génération MySQL"
-        working-directory: backend
-        env:
-          DATABASE_URL: "mysql://user:pass@localhost:3306/jobbot"
-        run: |
-          node scripts/prisma-provider.mjs mysql
-          npx prisma validate
-
-      - name: "Tester la génération MongoDB"
-        working-directory: backend
-        env:
-          DATABASE_URL: "mongodb://localhost:27017/jobbot"
-        run: |
-          node scripts/prisma-provider.mjs mongodb
-          npx prisma validate
-
+          python linguistics/validate_packs.py
