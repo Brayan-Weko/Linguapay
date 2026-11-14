@@ -38,6 +38,11 @@ jobs:
         run: |
           python linguistics/validate_packs.py
 
+      - name: Validate OpenAPI / Swagger Specification
+        run: |
+          cd backend
+          python -c "from app.main import app; schema = app.openapi(); assert len(schema['paths']) == 7, 'Missing OpenAPI paths'; print('OpenAPI/Swagger schema valid with', len(schema['paths']), 'endpoints')"
+
       - name: Run Pytest Suite & Financial Invariance Fuzzing
         run: |
           cd backend

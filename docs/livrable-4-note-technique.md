@@ -72,3 +72,4 @@ Conformément à la Section 6 du règlement, l'ensemble des bibliothèques logic
    - Les graphiques financiers rendus exclusivement via l'API Canvas 2D/WebGL sans arbre DOM textuel sous-jacent ne sont pas indexables par le `DOMWalker`.
 3. **Latence du Niveau 3 en cas de connexion réseau satellite très lente** :
    - Alors que les Niveaux 1 et 2 répondent en moins de 10 ms en cache local, la génération par IA externe sur un contenu inédit très long dépend de la latence Internet (mesurée entre 0,6 s et 1,2 s avec Gemini 2.5 Flash).
+

@@ -33,3 +33,4 @@ Pour des millions de citoyens dont les langues d'usage quotidien sont les langue
 
 - **Autonomie complète** des usagers pour consulter leur solde, vérifier les frais et valider des transferts sans recourir à un intermédiaire.
 - **Conformité totale avec la Section 9 du Règlement SAFINUM** : aucune donnée personnelle (PII) n'est collectée, aucune modification du service cible n'est requise, et le système est 100 % fonctionnel hors-ligne en salle de jury.
+

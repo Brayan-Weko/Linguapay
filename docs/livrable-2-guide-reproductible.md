@@ -27,8 +27,10 @@ cd backend
 .\.venv\Scripts\activate
 uvicorn app.main:app --port 8000
 ```
-Le serveur démarre sur `http://localhost:8000`. Vous pouvez vérifier le statut de santé :
-`http://localhost:8000/api/v1/health`
+Le serveur démarre sur `http://localhost:8000`.
+- **Documentation interactive Swagger UI** : `http://localhost:8000/docs` (test direct de toutes les routes API avec pré-remplissage)
+- **Cahier de Recette Détaillé** : voir `CAHIER_DE_TESTS.md` à la racine du dépôt pour le guide complet des 25 cas de test.
+- **Vérification de santé** : `http://localhost:8000/api/v1/health`
 
 ### Étape 2 : Démarrer le Simulateur Bancaire (`SimuBank CM`)
 Dans un second terminal :
@@ -69,3 +71,4 @@ Sur la page `http://localhost:5173/index.html` :
    - Cliquez sur *« Injecter ce message »* : le `MutationObserver` détecte l'élément en moins de 80 ms, masque les heures `02h00` et `04h00`, adapte le texte et affiche le résultat avec conservation rigoureuse des horaires !
 6. **Restauration originale** :
    - Cliquez sur *« Restaurer texte original FR/EN »* dans le panneau : la page revient à son état initial exact.
+

@@ -19,11 +19,31 @@ ai_translator = AITranslator(settings=settings)
 
 
 class TranslateItemRequest(BaseModel):
-    id: str = Field(default_factory=lambda: f"seg_{uuid.uuid4().hex[:8]}")
-    masked_text: str | None = None
-    text: str | None = None
-    entity_types: dict[str, str] = Field(default_factory=dict)
-    criticality: str = "UI_NAV"
+    id: str = Field(
+        default_factory=lambda: f"seg_{uuid.uuid4().hex[:8]}",
+        description="Identifiant unique du segment de texte (DOM element ID)",
+        examples=["seg_8f1a2c3d"],
+    )
+    masked_text: str | None = Field(
+        default=None,
+        description="Texte avec placeholders EntityShield déjà verrouillés côté client (ex: {{AMT_1}})",
+        examples=["Moni woe a ne tebe : {{AMT_1}}"],
+    )
+    text: str | None = Field(
+        default=None,
+        description="Texte brut non masqué (le bouclier EntityShield s'exécutera automatiquement côté serveur)",
+        examples=["Solde disponible : 145 750 FCFA"],
+    )
+    entity_types: dict[str, str] = Field(
+        default_factory=dict,
+        description="Dictionnaire des métadonnées de types d'entités verrouillées",
+        examples=[{"{{AMT_1}}": "AMOUNT_FCFA"}],
+    )
+    criticality: str = Field(
+        default="UI_NAV",
+        description="Niveau de criticité financière du segment (FINANCIAL_CORE, L1_CRITICAL_SECURITY, L2_TRANSACTION_CORE, UI_NAV)",
+        examples=["FINANCIAL_CORE"],
+    )
 
     @model_validator(mode="after")
     def ensure_text_present(self) -> "TranslateItemRequest":
@@ -33,27 +53,76 @@ class TranslateItemRequest(BaseModel):
 
 
 class TranslateBatchRequest(BaseModel):
-    target_lang: str
-    source_lang: str = "auto"
-    items: list[TranslateItemRequest] = Field(min_length=1, max_length=200)
+    target_lang: str = Field(
+        description="Langue nationale camerounaise cible (ewondo, duala, fulfulde)",
+        examples=["ewondo"],
+    )
+    source_lang: str = Field(
+        default="auto",
+        description="Langue source du texte bancaire (auto, fr, en, es, de, pt, it, zh, ar, etc.)",
+        examples=["auto"],
+    )
+    items: list[TranslateItemRequest] = Field(
+        min_length=1,
+        max_length=200,
+        description="Liste ordonnée des segments textuels à adapter (maximum 200 par lot)",
+    )
+
+    model_config = {
+        "json_schema_extra": {
+            "examples": [
+                {
+                    "target_lang": "ewondo",
+                    "source_lang": "auto",
+                    "items": [
+                        {
+                            "id": "seg_solde",
+                            "text": "Solde disponible : 145 750 FCFA",
+                            "criticality": "FINANCIAL_CORE",
+                        },
+                        {
+                            "id": "seg_frais",
+                            "text": "Frais de transfert : 1 500 FCFA",
+                            "criticality": "FINANCIAL_CORE",
+                        },
+                        {
+                            "id": "seg_alerte",
+                            "text": "Attention : ne communiquez jamais votre code PIN.",
+                            "criticality": "L1_CRITICAL_SECURITY",
+                        },
+                    ],
+                }
+            ]
+        }
+    }
 
 
 class TranslateItemResponse(BaseModel):
-    id: str
-    translated_masked_text: str
-    unlocked_text: str | None = None
-    tier_used: str
-    confidence: float
-    integrity_passed: bool
-    verification_reason: str
-    fallback_triggered: bool
-    audio_clip: str | None = None
+    id: str = Field(description="Identifiant du segment traité", examples=["seg_solde"])
+    translated_masked_text: str = Field(
+        description="Texte adapté dans la langue nationale avec placeholders de variables préservés",
+        examples=["[À VALIDER NATIF] Moni woe a ne tebe : {{AMT_1}}"],
+    )
+    unlocked_text: str | None = Field(
+        default=None,
+        description="Texte final réinjecté avec les montants et données financières réinsérées sans la moindre altération",
+        examples=["[À VALIDER NATIF] Moni woe a ne tebe : 145 750 FCFA"],
+    )
+    tier_used: str = Field(
+        description="Moteur de résolution employé (GLOSSARY_L1, TEMPLATE_L2, AI_CONSTRAINED_L3, PIVOT_GLOSSARY_L1, PIVOT_TEMPLATE_L2, CIRCUIT_BREAKER_FALLBACK)",
+        examples=["TEMPLATE_L2"],
+    )
+    confidence: float = Field(description="Indice de confiance de la traduction (0.0 à 1.0)", examples=[1.0])
+    integrity_passed: bool = Field(description="Indique si le contrôle mathématique d'invariance et de sécurité est validé", examples=[True])
+    verification_reason: str = Field(description="Détail du verdict du vérificateur d'intégrité", examples=["OK_IDENTICAL_TOKENS_AND_INTEGRITY"])
+    fallback_triggered: bool = Field(description="Vrai si le Circuit-Breaker a restauré le texte d'origine suite à une anomalie", examples=[False])
+    audio_clip: str | None = Field(default=None, description="Lien relatif vers la capsule audio pré-enregistrée le cas échéant", examples=["audio/ewondo/fin_bal_001.ogg"])
 
 
 class TranslateBatchResponse(BaseModel):
-    request_id: str
-    target_lang: str
-    results: list[TranslateItemResponse]
+    request_id: str = Field(description="Identifiant unique de la transaction de lot", examples=["req_b3a7f8e12d"])
+    target_lang: str = Field(description="Langue nationale cible", examples=["ewondo"])
+    results: list[TranslateItemResponse] = Field(description="Résultats d'adaptation pour chacun des segments du lot")
 
 
 def _translate_single(
@@ -175,7 +244,96 @@ def _translate_single(
     )
 
 
-@router.post("/translate/batch", response_model=TranslateBatchResponse)
+class SingleTranslateRequest(BaseModel):
+    target_lang: str = Field(
+        description="Langue nationale cible (ewondo, duala, fulfulde)",
+        examples=["ewondo"],
+    )
+    source_lang: str = Field(
+        default="auto",
+        description="Langue source (auto, fr, en, es, de, pt, it, zh, ar, etc.)",
+        examples=["auto"],
+    )
+    masked_text: str | None = Field(
+        default=None,
+        description="Texte avec variables pré-masquées par EntityShield (optionnel si 'text' est fourni)",
+        examples=["Moni woe a ne tebe : {{AMT_1}}"],
+    )
+    text: str | None = Field(
+        default=None,
+        description="Texte brut bancaire à sécuriser et traduire",
+        examples=["Solde disponible : 145 750 FCFA"],
+    )
+    entity_types: dict[str, str] = Field(
+        default_factory=dict,
+        description="Types des entités financières masquées",
+        examples=[{"{{AMT_1}}": "AMOUNT_FCFA"}],
+    )
+    criticality: str = Field(
+        default="FINANCIAL_CORE",
+        description="Niveau de criticité financière (FINANCIAL_CORE, L1_CRITICAL_SECURITY, L2_TRANSACTION_CORE, UI_NAV)",
+        examples=["FINANCIAL_CORE"],
+    )
+
+    @model_validator(mode="after")
+    def ensure_text_present(self) -> "SingleTranslateRequest":
+        if not self.masked_text and not self.text:
+            raise ValueError("Either 'masked_text' or 'text' must be provided.")
+        return self
+
+    model_config = {
+        "json_schema_extra": {
+            "examples": [
+                {
+                    "target_lang": "ewondo",
+                    "source_lang": "auto",
+                    "text": "Solde disponible : 145 750 FCFA",
+                    "criticality": "FINANCIAL_CORE",
+                },
+                {
+                    "target_lang": "duala",
+                    "source_lang": "es",
+                    "text": "Saldo disponible : 50 000 FCFA",
+                    "criticality": "FINANCIAL_CORE",
+                },
+                {
+                    "target_lang": "fulfulde",
+                    "source_lang": "fr",
+                    "text": "Vous allez transférer 50 000 FCFA à Jean-Paul Mballa (+237 699 45 12 88). Frais : 1 500 FCFA. Total à débiter : 51 500 FCFA.",
+                    "criticality": "FINANCIAL_CORE",
+                },
+            ]
+        }
+    }
+
+
+@router.post(
+    "/translate",
+    response_model=TranslateItemResponse,
+    summary="Traduction unitaire sécurisée avec EntityShield & Circuit-Breaker",
+    description="Adapte une phrase financière dans la langue nationale choisie (Ewondo, Duala, Fulfulde). "
+    "Exécute le bouclier déterministe EntityShield, pivote si nécessaire via UniversalPivotBridge, "
+    "résout via le Glossaire L1, les Patrons L2 ou l'IA contrainte L3, puis vérifie la bijection mathématique stricte.",
+    response_description="Résultat d'adaptation contenant le texte masqué, le texte réinjecté sans altération et les métadonnées de vérification.",
+)
+def translate_single(payload: SingleTranslateRequest) -> TranslateItemResponse:
+    request_id = f"req_{uuid.uuid4().hex[:10]}"
+    item = TranslateItemRequest(
+        masked_text=payload.masked_text,
+        text=payload.text,
+        entity_types=payload.entity_types,
+        criticality=payload.criticality,
+    )
+    return _translate_single(item, payload.target_lang.lower(), request_id, source_lang=payload.source_lang)
+
+
+@router.post(
+    "/translate/batch",
+    response_model=TranslateBatchResponse,
+    summary="Traduction groupée sécurisée par lots (Batch DOM)",
+    description="Permet à l'extension navigateur ou au client API d'adapter simultanément jusqu'à 200 segments DOM en une seule requête HTTP.",
+    response_description="Ensemble ordonné des segments adaptés avec statuts de vérification d'intégrité individuels.",
+)
 def translate_batch(payload: TranslateBatchRequest) -> TranslateBatchResponse:
     request_id = f"req_{uuid.uuid4().hex[:10]}"
     results = [
@@ -187,30 +345,3 @@ def translate_batch(payload: TranslateBatchRequest) -> TranslateBatchResponse:
         target_lang=payload.target_lang.lower(),
         results=results,
     )
-
-
-class SingleTranslateRequest(BaseModel):
-    target_lang: str
-    source_lang: str = "auto"
-    masked_text: str | None = None
-    text: str | None = None
-    entity_types: dict[str, str] = Field(default_factory=dict)
-    criticality: str = "UI_NAV"
-
-    @model_validator(mode="after")
-    def ensure_text_present(self) -> "SingleTranslateRequest":
-        if not self.masked_text and not self.text:
-            raise ValueError("Either 'masked_text' or 'text' must be provided.")
-        return self
-
-
-@router.post("/translate", response_model=TranslateItemResponse)
-def translate_single(payload: SingleTranslateRequest) -> TranslateItemResponse:
-    request_id = f"req_{uuid.uuid4().hex[:10]}"
-    item = TranslateItemRequest(
-        masked_text=payload.masked_text,
-        text=payload.text,
-        entity_types=payload.entity_types,
-        criticality=payload.criticality,
-    )
-    return _translate_single(item, payload.target_lang.lower(), request_id, source_lang=payload.source_lang)

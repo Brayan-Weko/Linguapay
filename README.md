@@ -120,11 +120,12 @@ Linguapay/
 │   │   └── tts/
 │   │       ├── number_composer.py   # Algorithme de verbalisation des nombres FCFA
 │   │       └── audio_resolver.py    # Assemblage de playlist pour lecture WebAudio
-│   └── tests/                       # Suite complète de tests unitaires et fuzzing (23 tests)
+│   └── tests/                       # Suite complète de tests unitaires et fuzzing (26 tests)
 │       ├── test_api_health_and_language_packs.py            # Santé API, chargement & conformité packs JSON
 │       ├── test_financial_shield_and_invariance_fuzzing.py  # EntityShield & Fuzzing 600 cas d'invariance financière
 │       ├── test_ai_translation_and_circuit_breaker.py       # Moteur IA L3, cache LRU & Circuit-Breaker
 │       ├── test_fcfa_number_composer_and_audio.py           # Algorithme NumberComposer & synthèse audio WAV
+│       ├── test_openapi_swagger_specification.py            # Spécification OpenAPI, documentation Swagger & ReDoc
 │       └── test_universal_pivot_bridge.py                   # Détection multi-langues & pivot universel anglais
 ├── extension/                       # Extension Chrome / Edge Manifest V3 (TypeScript + esbuild)
 │   ├── manifest.json                # Déclaration MV3 stricte
@@ -168,6 +169,7 @@ Linguapay/
 ├── scripts/
 │   └── package_extension.py         # Script d'empaquetage de l'extension en archive ZIP
 ├── linguapay-extension-v1.0.zip     # Archive de distribution prête pour le jury
+├── CAHIER_DE_TESTS.md               # Guide de recette et protocole de test complet pas-à-pas
 ├── docker-compose.yml               # Déploiement local orchestré pour le jury
 └── docs/                            # Dossier des livrables officiels SAFINUM
     ├── livrable-1-description-succincte.md      # Livrable 1 : Fiche synthétique du projet
@@ -210,7 +212,12 @@ cp .env.example .env
 # Démarrer le serveur API FastAPI (port 8000)
 uvicorn app.main:app --port 8000 --reload
 ```
-Le serveur démarre sur `http://localhost:8000`. Vérifiez l'état de santé :
+Le serveur démarre sur `http://localhost:8000`.
+- **Documentation interactive Swagger UI** : [http://localhost:8000/docs](http://localhost:8000/docs) (test interactif de chaque route avec pré-remplissage des exemples réels)
+- **Documentation ReDoc** : [http://localhost:8000/redoc](http://localhost:8000/redoc)
+- **Schéma OpenAPI 3.1.0** : `http://localhost:8000/openapi.json`
+
+Vérifiez l'état de santé :
 ```bash
 curl http://localhost:8000/api/v1/health
 ```
@@ -244,6 +251,8 @@ L'overlay flottant **LinguaPay** apparaît automatiquement en bas à droite de l
 
 ## 6. Guide des Tests & Vérifications Automatisées
 
+> 📘 **Cahier de Recette Officiel** : Consultez le document exhaustif [CAHIER_DE_TESTS.md](file:///c:/Users/PC/Documents/Linguapay/CAHIER_DE_TESTS.md) qui détaille l'ensemble des scénarios de test (Swagger UI, bouclier financier, Circuit-Breaker, pivot multi-langues, simulateur bancaire SimuBank CM et épreuve jury live).
+
 Le projet intègre une suite de tests rigoureuse couvrant les contrats d'API, l'invariance financière, le fuzzing et l'intégration de bout en bout.
 
 ### 1. Validation du Schéma des Packs Linguistiques
@@ -252,13 +261,14 @@ backend\.venv\Scripts\python.exe linguistics\validate_packs.py
 ```
 *Vérifie que chaque pack respecte `lang-pack.schema.json`, ne contient aucun identifiant dupliqué et que tous les tokens des templates sont bien préservés.*
 
-### 2. Tests Backend & Fuzzing d'Invariance Financière (23 tests)
+### 2. Tests Backend, Fuzzing & Conformité OpenAPI (26 tests)
 ```powershell
 cd backend
 .\.venv\Scripts\python.exe -m pytest tests -v
 ```
 Cette suite exécute :
 - **Fuzzing sur 600 cas synthétiques aléatoires** : montants, frais, bénéficiaires camerounais, téléphones (+237) et devises (FCFA, XAF, EUR, USD) avec **0 % d'altération**.
+- **Tests de Conformité OpenAPI / Swagger** : validation structurelle du schéma, exhaustivité des routes, métadonnées SAFINUM, codes 200 OK sur `/docs`, `/redoc` et `/openapi.json`.
 - **Tests du Bouclier `EntityShield`** : masquage et démasquage réversible déterministe.
 - **Tests du Vérificateur d'Intégrité `IntegrityVerifier`** : rejet immédiat si un token est supprimé, si un chiffre est inventé ou si une négation de sécurité est perdue.
 - **Tests du Pont Universel `UniversalPivotBridge`** : détection multi-alphabets et pivot universel vers l'anglais pour 9 langues sources (ES, DE, PT, IT, SW, AR, ZH, RU, TR) avant adaptation vers les langues nationales.

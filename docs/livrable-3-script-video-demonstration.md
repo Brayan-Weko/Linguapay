@@ -25,3 +25,4 @@
 - [x] Zoom de l'écran : 110 % pour une lisibilité parfaite des libellés et des montants en FCFA.
 - [x] Sortie audio capturée directement (pour que le son des capsules WebAudio soit parfaitement audible).
 - [x] Minuteur incrusté ou durée vérifiée strictement inférieure à 3 minutes (2 min 48 s estimé).
+
