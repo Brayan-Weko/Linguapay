@@ -189,3 +189,4 @@ def record_demo() -> Path:
 
 if __name__ == "__main__":
     record_demo()
+

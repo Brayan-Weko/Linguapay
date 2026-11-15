@@ -29,3 +29,4 @@ La vidéo a été générée de façon 100 % automatisée et reproductible via P
 ```powershell
 backend\.venv\Scripts\python.exe scripts/record_demo_video.py
 ```
+
