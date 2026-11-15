@@ -14,7 +14,7 @@ from app.config import settings
 OPENAPI_DESCRIPTION = """
 ## 🏛️ Présentation de LinguaPay Core API
 
-**LinguaPay** est la couche d'adaptation linguistique et vocale sécurisée conçue pour le **SAFINUM Innovate Challenge 2026** (Comité National Économique et Financier - CNEF Cameroun).
+**LinguaPay Assistant** est la couche universelle d'adaptation linguistique et vocale sécurisée pour les services financiers et bancaires.
 
 Elle permet d'adapter instantanément n'importe quel service financier numérique (banque en ligne, microfinance, portefeuille mobile) dans les langues nationales camerounaises (**Ewondo**, **Duala**, **Fulfulde**) **sans modifier une seule ligne du code source hôte**.
 
@@ -74,17 +74,17 @@ TAGS_METADATA = [
 
 app = FastAPI(
     title="LinguaPay Core API — Documentation Interactive Swagger",
-    summary="Couche d'adaptation linguistique et vocale sécurisée pour services financiers camerounais (SAFINUM 2026)",
+    summary="Couche d'adaptation linguistique et vocale sécurisée pour services financiers camerounais",
     description=OPENAPI_DESCRIPTION,
     version="1.0.0",
     openapi_tags=TAGS_METADATA,
     contact={
-        "name": "Équipe Projet LinguaPay — SAFINUM Innovate Challenge 2026",
+        "name": "Équipe Projet LinguaPay",
         "url": "https://github.com/placeholder/linguapay",
         "email": "contact@linguapay.cm",
     },
     license_info={
-        "name": "Licence MIT — Développé pour le CNEF Cameroun",
+        "name": "Licence MIT — LinguaPay Assistant",
         "url": "https://opensource.org/licenses/MIT",
     },
     docs_url="/docs",

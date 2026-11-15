@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://linguapay.safinum.cm/schemas/lang-pack.schema.json",
+  "$id": "https://linguapay.cm/schemas/lang-pack.schema.json",
   "title": "LinguaPay Language Pack Schema",
   "description": "Schéma normé des glossaires financiers, templates transactionnels et règles de verbalisation numérique pour les langues nationales du Cameroun.",
   "type": "object",

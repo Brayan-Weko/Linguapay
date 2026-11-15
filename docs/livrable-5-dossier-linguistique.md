@@ -1,7 +1,7 @@
 # Livrable 5 — Dossier Linguistique Officiel & Protocole de Validation
 
-**Événement** : SAFINUM Innovate Challenge 2026 (CNEF Cameroun)  
-**Nom du Projet** : LinguaPay  
+**Projet** : LinguaPay Assistant  
+**Solution** : Couche d'Adaptation Linguistique Sécurisée & Vocale  
 **Référence** : `LP-LIV-05-v1.0`  
 **Date d'émission** : Février 2026  
 **Auteurs** : Équipe LinguaPay — Pôle Ingénierie Linguistique & Sécurité Financière  

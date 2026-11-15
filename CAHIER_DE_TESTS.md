@@ -1,7 +1,7 @@
 # Cahier de Tests Exhaustif & Protocole de Recette — LinguaPay
 
-**Événement** : SAFINUM Innovate Challenge 2026 (CNEF Cameroun)  
-**Projet** : LinguaPay — Couche d'Adaptation Linguistique Sécurisée & Vocale  
+**Projet** : LinguaPay Assistant — Recette & Assurance Qualité  
+**Solution** : LinguaPay Assistant — Couche d'Adaptation Linguistique Sécurisée & Vocale  
 **Référence du Document** : `LP-QA-TESTBOOK-v1.0`  
 **Version de la Solution** : `1.0.0`  
 **Date d'émission** : Novembre 2026  
@@ -10,7 +10,7 @@
 
 ## 1. Présentation & Objectifs du Cahier de Tests
 
-Ce document constitue le **guide officiel de recette et de validation fonctionnelle** de la solution LinguaPay. Il est destiné aux développeurs, aux auditeurs de sécurité et aux membres du **jury du SAFINUM Innovate Challenge 2026**.
+Ce document constitue le **guide officiel de recette et de validation fonctionnelle** de la solution LinguaPay Assistant. Il est destiné aux développeurs, aux auditeurs de sécurité, aux équipes de conformité et aux évaluateurs techniques.
 
 Il permet de valider de manière méthodique et reproductible :
 1. **La documentation interactive Swagger / OpenAPI** et le test direct de chaque point d'accès API.
@@ -23,9 +23,9 @@ Il permet de valider de manière méthodique et reproductible :
 
 ---
 
-## 2. Matrice de Traçabilité des Tests (Grille SAFINUM 100 Points)
+## 2. Matrice de Traçabilité des Tests (Grille d'Excellence 100 Points)
 
-| Exigence Réglementaire SAFINUM | Poids | Cas de Test Associés dans ce Cahier |
+| Exigence Fonctionnelle & Réglementaire | Poids | Cas de Test Associés dans ce Cahier |
 | :--- | :---: | :--- |
 | **Fonctionnement du prototype** (Parcours complet en 5 étapes) | **25 pts** | `TC-UI-01`, `TC-UI-02`, `TC-UI-03`, `TC-UI-04`, `TC-UI-05`, `TC-UI-06` |
 | **Intégration & Indépendance** (Zéro-Intrusion sur le code hôte) | **20 pts** | `TC-UI-02`, `TC-EXT-01`, `TC-EXT-02`, `TC-AUTO-04` |
@@ -428,7 +428,7 @@ Accédez dans votre navigateur à l'adresse : **[http://localhost:5173/index.htm
 
 ---
 
-## 6. Phase 3 : Test du Contenu Inédit en Direct (Épreuve Jury SAFINUM)
+## 6. Phase 3 : Test du Contenu Inédit en Direct (Épreuve d'Évaluation en Direct)
 
 Sur la page `http://localhost:5173/index.html`, descendez jusqu'à la section **« Console de Démonstration Jury »** en bas de page.
 

@@ -1,7 +1,7 @@
 # Livrable 2 — Guide de Démonstration Technique Reproductible
 
-**Événement** : SAFINUM Innovate Challenge 2026 (CNEF Cameroun)  
-**Nom du Projet** : LinguaPay  
+**Projet** : LinguaPay Assistant  
+**Solution** : Couche d'Adaptation Linguistique Sécurisée & Vocale  
 **Référence** : `LP-LIV-02-v1.0`
 
 Ce document détaille la procédure pas-à-pas permettant au jury ou aux organisateurs de reproduire la démonstration complète sur n'importe quel ordinateur portable (Windows, macOS ou Linux), avec ou sans connexion Internet.
@@ -66,7 +66,7 @@ Sur la page `http://localhost:5173/index.html` :
 4. **Vérification vocale audio** :
    - Cliquez sur le bouton *« 🔊 Écouter le résumé (Audio) »* : la séquence sonore lit la phrase et décompose le montant en FCFA dans la langue nationale choisie.
 5. **Démonstration du Contenu Inédit en Direct (Jury)** :
-   - Dépliez la section *« Console Jury SAFINUM »* en bas à droite de SimuBank.
+   - Dépliez la section *« Console d'Évaluation en Direct »* en bas à droite de SimuBank.
    - Cliquez sur *« Préréglage : Maintenance »* ou tapez un message libre (ex : `Interruption temporaire de 02h00 à 04h00 : les virements sont suspendus.`).
    - Cliquez sur *« Injecter ce message »* : le `MutationObserver` détecte l'élément en moins de 80 ms, masque les heures `02h00` et `04h00`, adapte le texte et affiche le résultat avec conservation rigoureuse des horaires !
 6. **Restauration originale** :

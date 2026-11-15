@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "LinguaPay — Finance Inclusive Cameroun",
   "version": "0.3.0",
-  "description": "Couche d'adaptation linguistique non-intrusive et vocale vers les langues nationales camerounaises (SAFINUM 2026).",
+  "description": "Couche d'adaptation linguistique non-intrusive et vocale vers les langues nationales camerounaises.",
   "permissions": ["activeTab", "storage"],
   "host_permissions": [
     "http://localhost:8000/*",

@@ -1,7 +1,7 @@
 # Livrable 1 — Description Succincte de la Solution
 
-**Événement** : SAFINUM Innovate Challenge 2026 (CNEF Cameroun)  
-**Nom du Projet** : LinguaPay  
+**Projet** : LinguaPay Assistant  
+**Solution** : Couche d'Adaptation Linguistique Sécurisée & Vocale  
 **Référence** : `LP-LIV-01-v1.0`
 
 ---
@@ -32,5 +32,5 @@ Pour des millions de citoyens dont les langues d'usage quotidien sont les langue
 ## 3. Impact Attendu sur l'Inclusion Financière
 
 - **Autonomie complète** des usagers pour consulter leur solde, vérifier les frais et valider des transferts sans recourir à un intermédiaire.
-- **Conformité totale avec la Section 9 du Règlement SAFINUM** : aucune donnée personnelle (PII) n'est collectée, aucune modification du service cible n'est requise, et le système est 100 % fonctionnel hors-ligne en salle de jury.
+- **Conformité totale avec les exigences de sécurité et d'audit** : aucune donnée personnelle (PII) n'est collectée, aucune modification du service cible n'est requise, et le système est 100 % fonctionnel en environnement autonome hors-ligne.
 

@@ -74,5 +74,5 @@ jobs:
                   assert op.get('description'), f'Missing description on {m.upper()} {p}'
                   assert '200' in op.get('responses', {}), f'Missing 200 response on {m.upper()} {p}'
 
-          print(f'OpenAPI specification fully validated: {len(paths)} endpoints compliant with SAFINUM standards.')
+          print(f'OpenAPI specification fully validated: {len(paths)} endpoints compliant with standards.')
           "

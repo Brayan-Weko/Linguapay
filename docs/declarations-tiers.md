@@ -1,6 +1,6 @@
-# Déclaration des Composants Tiers & Licences — LinguaPay
+# Déclaration des Composants Tiers & Licences — LinguaPay Assistant
 
-Conformément aux **Sections 6, 9 et 11** du règlement *SAFINUM Innovate Challenge* :
+Conformément aux exigences de transparence, de sécurité et d'indépendance de LinguaPay Assistant :
 
 | Composant / Bibliothèque | Usage dans LinguaPay | Licence |
 | :--- | :--- | :--- |

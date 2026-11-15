@@ -36,7 +36,7 @@ jobs:
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
         with:
           args: >
-            -Dsonar.projectKey=linguapay-safinum
+            -Dsonar.projectKey=linguapay
             -Dsonar.sources=backend/app,extension/src
             -Dsonar.tests=backend/tests
             -Dsonar.exclusions=**/node_modules/**,**/dist/**

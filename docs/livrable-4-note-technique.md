@@ -1,7 +1,7 @@
 # Livrable 4 — Note Technique Officielle
 
-**Événement** : SAFINUM Innovate Challenge 2026 (CNEF Cameroun)  
-**Nom du Projet** : LinguaPay  
+**Projet** : LinguaPay Assistant  
+**Solution** : Couche d'Adaptation Linguistique Sécurisée & Vocale  
 **Référence** : `LP-LIV-04-v1.0`
 
 ---

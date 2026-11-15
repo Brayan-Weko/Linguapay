@@ -110,8 +110,8 @@ def get_glossary(
     "/audit/recent",
     response_model=AuditRecentResponse,
     summary="Journal d'audit en temps réel (100% anonymisé Zero-PII)",
-    description="Permet aux auditeurs de sécurité et aux membres du jury de vérifier en direct "
-    "que le bouclier fonctionne conformément à la Section 9 du règlement SAFINUM. "
+    description="Permet aux auditeurs de sécurité de vérifier en direct "
+    "que le bouclier fonctionne correctement. "
     "Seuls les squelettes syntaxiques masqués ({{AMT_1}}, {{BEN_1}}) sont consignés, sans aucune donnée personnelle réelle.",
     response_description="Dernières transactions d'adaptation enregistrées en mémoire vive.",
 )

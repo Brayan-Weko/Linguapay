@@ -26,7 +26,7 @@ def test_openapi_schema_metadata_and_structure():
     info = schema.get("info", {})
     assert "LinguaPay" in info.get("title", "")
     assert info.get("version") == "1.0.0"
-    assert "SAFINUM" in info.get("description", "")
+    assert "LinguaPay Assistant" in info.get("description", "")
     assert info.get("contact", {}).get("email") is not None
     assert info.get("license", {}).get("name") is not None
 
