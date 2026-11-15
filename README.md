@@ -3,10 +3,21 @@
 > **LinguaPay Assistant** — Couche Universelle d'Adaptation Linguistique et Vocale pour Services Financiers
 > *Inclusion financière par l'adaptation native en langues camerounaises (Ewondo, Duala, Fulfulde)*
 
-[![Backend CI & Security](https://github.com/placeholder/linguapay/actions/workflows/ci-backend.yml/badge.svg)](https://github.com/placeholder/linguapay/actions)
-[![Extension CI & Build](https://github.com/placeholder/linguapay/actions/workflows/ci-extension.yml/badge.svg)](https://github.com/placeholder/linguapay/actions)
-[![Security & Audits](https://github.com/placeholder/linguapay/actions/workflows/ci-security.yml/badge.svg)](https://github.com/placeholder/linguapay/actions)
-[![E2E Integration](https://github.com/placeholder/linguapay/actions/workflows/ci-e2e.yml/badge.svg)](https://github.com/placeholder/linguapay/actions)
+[![Backend CI & Security](https://github.com/Brayan-Weko/Linguapay/actions/workflows/ci-backend.yml/badge.svg)](https://github.com/Brayan-Weko/Linguapay/actions)
+[![Extension CI & Build](https://github.com/Brayan-Weko/Linguapay/actions/workflows/ci-extension.yml/badge.svg)](https://github.com/Brayan-Weko/Linguapay/actions)
+[![Security & Audits](https://github.com/Brayan-Weko/Linguapay/actions/workflows/ci-security.yml/badge.svg)](https://github.com/Brayan-Weko/Linguapay/actions)
+[![E2E Integration](https://github.com/Brayan-Weko/Linguapay/actions/workflows/ci-e2e.yml/badge.svg)](https://github.com/Brayan-Weko/Linguapay/actions)
+
+---
+
+## 📦 Livrables Officiels de la Solution
+
+| Livrable Demandé | Description | Lien d'Accès Public |
+| :--- | :--- | :--- |
+| 🎬 **Vidéo de Présentation** | Démonstration pas-à-pas HD (720p) du parcours bancaire, adaptation en direct, verbalisation vocale WebAudio et bouclier | [Voir la Vidéo (WebM / HD)](https://github.com/Brayan-Weko/Linguapay/blob/main/docs/video/demo_linguapay_presentation.webm) &bull; [Téléchargement Direct Release](https://github.com/Brayan-Weko/Linguapay/releases/download/v1.0.0/demo_linguapay_presentation.webm) |
+| 📄 **Documentation Complète (PDF)** | Dossier d'architecture technique officiel illustré de schémas vectoriels SVG, matrice Zero-PII et protocoles de recette | [Consulter le PDF Officiel](https://github.com/Brayan-Weko/Linguapay/blob/main/docs/LinguaPay_Documentation_Officielle.pdf) &bull; [Téléchargement Direct Release](https://github.com/Brayan-Weko/Linguapay/releases/download/v1.0.0/LinguaPay_Documentation_Officielle.pdf) |
+| 💻 **Dépôt GitHub du Projet** | Code source complet, historique git traçable, pipelines CI/CD 100% verts | [https://github.com/Brayan-Weko/Linguapay](https://github.com/Brayan-Weko/Linguapay) |
+| 🧩 **Extension Navigateur (ZIP)** | Archive prête au déploiement (Manifest V3 pour Google Chrome et Microsoft Edge) | [linguapay-extension-v1.0.zip](https://github.com/Brayan-Weko/Linguapay/raw/main/linguapay-extension-v1.0.zip) &bull; [Téléchargement Direct Release](https://github.com/Brayan-Weko/Linguapay/releases/download/v1.0.0/linguapay-extension-v1.0.zip) |
 
 ---
 

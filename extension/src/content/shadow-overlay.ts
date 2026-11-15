@@ -59,7 +59,7 @@ export class ShadowOverlay {
     const statusText = state.apiOnline ? "API Connectée" : "Mode Hors-Ligne (Cache)";
     const inspectorHtml = this.inspectorOpen
       ? `<div class="inspector-box">
-           <div class="section-label">INSPECTEUR D'INTÉGRITÉ (JURY)</div>
+           <div class="section-label">INSPECTEUR D'INTÉGRITÉ & AUDIT</div>
            ${
              state.inspectorEntries.length === 0
                ? `<div class="muted">Activez LinguaPay pour inspecter les segments.</div>`
@@ -188,7 +188,7 @@ export class ShadowOverlay {
           </div>
 
           <button class="inspector-toggle" id="lp-insp-btn" type="button">
-            ${this.inspectorOpen ? "Masquer Inspecteur Jury" : "Inspecteur d'Intégrité (Jury)"}
+            ${this.inspectorOpen ? "Masquer Inspecteur d'Intégrité" : "Inspecteur d'Intégrité (Audit)"}
           </button>
           ${inspectorHtml}
         </div>

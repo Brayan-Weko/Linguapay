@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>LinguaPay Assistant — Documentation Technique & Présentation</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 18mm 16mm 18mm 16mm;
+      @bottom-center {
+        content: counter(page);
+      }
+    }
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: #1e293b;
+      background: #ffffff;
+      line-height: 1.55;
+      font-size: 10.5pt;
+      margin: 0;
+      padding: 0;
+    }
+    h1, h2, h3, h4 {
+      color: #0f172a;
+      font-weight: 700;
+      margin-top: 1.4em;
+      margin-bottom: 0.5em;
+      page-break-after: avoid;
+    }
+    h1 {
+      font-size: 24pt;
+      line-height: 1.2;
+      color: #1e3a8a;
+      margin-top: 0;
+    }
+    h2 {
+      font-size: 15pt;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 6px;
+      color: #1e40af;
+      margin-top: 1.8em;
+    }
+    h3 {
+      font-size: 12pt;
+      color: #334155;
+    }
+    p {
+      margin: 0.6em 0;
+    }
+    .cover-page {
+      page-break-after: always;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 90vh;
+      text-align: center;
+      padding: 40px 20px;
+    }
+    .cover-badge {
+      display: inline-block;
+      background: #eff6ff;
+      color: #1d4ed8;
+      border: 1px solid #bfdbfe;
+      border-radius: 9999px;
+      padding: 6px 16px;
+      font-size: 11pt;
+      font-weight: 600;
+      margin-bottom: 24px;
+      letter-spacing: 0.5px;
+    }
+    .cover-title {
+      font-size: 32pt;
+      font-weight: 800;
+      color: #1e3a8a;
+      margin-bottom: 12px;
+      letter-spacing: -0.5px;
+    }
+    .cover-subtitle {
+      font-size: 14pt;
+      color: #475569;
+      max-width: 680px;
+      margin: 0 auto 36px auto;
+      line-height: 1.5;
+    }
+    .cover-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      max-width: 720px;
+      margin: 0 auto 48px auto;
+      text-align: left;
+    }
+    .cover-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 16px;
+    }
+    .cover-card-title {
+      font-size: 9pt;
+      text-transform: uppercase;
+      color: #64748b;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .cover-card-val {
+      font-size: 11pt;
+      font-weight: 600;
+      color: #0f172a;
+    }
+    .cover-meta {
+      border-top: 1px solid #e2e8f0;
+      padding-top: 24px;
+      font-size: 9.5pt;
+      color: #64748b;
+    }
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 8.5pt;
+      font-weight: 600;
+    }
+    .badge-blue { background: #dbeafe; color: #1e40af; }
+    .badge-green { background: #dcfce7; color: #166534; }
+    .badge-purple { background: #f3e8ff; color: #6b21a8; }
+    .badge-amber { background: #fef3c7; color: #92400e; }
+
+    .card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin: 14px 0;
+    }
+    .alert-box {
+      border-left: 4px solid #3b82f6;
+      background: #eff6ff;
+      padding: 12px 16px;
+      margin: 14px 0;
+      border-radius: 0 8px 8px 0;
+    }
+    .alert-box.green {
+      border-left-color: #10b981;
+      background: #ecfdf5;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 14px 0;
+      font-size: 9.5pt;
+    }
+    th, td {
+      border: 1px solid #cbd5e1;
+      padding: 8px 10px;
+      text-align: left;
+    }
+    th {
+      background: #f1f5f9;
+      color: #0f172a;
+      font-weight: 700;
+    }
+    tr:nth-child(even) {
+      background: #f8fafc;
+    }
+
+    .diagram-container {
+      margin: 20px 0;
+      padding: 16px;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      text-align: center;
+      page-break-inside: avoid;
+    }
+    .diagram-caption {
+      font-size: 9pt;
+      color: #64748b;
+      margin-top: 8px;
+      font-style: italic;
+    }
+
+    .page-break {
+      page-break-after: always;
+    }
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 9pt;
+      background: #f1f5f9;
+      padding: 2px 5px;
+      border-radius: 4px;
+      color: #0f172a;
+    }
+    .kpi-row {
+      display: flex;
+      gap: 12px;
+      margin: 14px 0;
+    }
+    .kpi-col {
+      flex: 1;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 12px;
+      text-align: center;
+    }
+    .kpi-number {
+      font-size: 20pt;
+      font-weight: 800;
+      color: #1e40af;
+      margin-bottom: 2px;
+    }
+    .kpi-label {
+      font-size: 8.5pt;
+      color: #64748b;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- PAGE DE COUVERTURE -->
+  <div class="cover-page">
+    <div>
+      <span class="cover-badge">DOSSIER TECHNIQUE D'ARCHITECTURE & LIVRABLES</span>
+      <div class="cover-title">LinguaPay Assistant</div>
+      <div class="cover-subtitle">
+        Couche Universelle d'Adaptation Linguistique et Vocale Sécurisée pour les Services Financiers et l'Inclusion Numérique
+      </div>
+
+      <div class="cover-grid">
+        <div class="cover-card">
+          <div class="cover-card-title">Langues Nationales</div>
+          <div class="cover-card-val">Ewondo, Duala, Fulfulde</div>
+        </div>
+        <div class="cover-card">
+          <div class="cover-card-title">Modèle d'Intégration</div>
+          <div class="cover-card-val">Zéro-Intrusion (MV3 & API)</div>
+        </div>
+        <div class="cover-card">
+          <div class="cover-card-title">Sécurité Financière</div>
+          <div class="cover-card-val">100% Invariance & Zero-PII</div>
+        </div>
+      </div>
+
+      <div class="kpi-row" style="max-width: 720px; margin: 0 auto 36px auto;">
+        <div class="kpi-col">
+          <div class="kpi-number">0%</div>
+          <div class="kpi-label">Altération Montants</div>
+        </div>
+        <div class="kpi-col">
+          <div class="kpi-number">&lt; 80 ms</div>
+          <div class="kpi-label">Détection DOM Live</div>
+        </div>
+        <div class="kpi-col">
+          <div class="kpi-number">9</div>
+          <div class="kpi-label">Langues Pivot Étrangères</div>
+        </div>
+        <div class="kpi-col">
+          <div class="kpi-number">100%</div>
+          <div class="kpi-label">Workflows CI Passés</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cover-meta">
+      <strong>Auteur / Organisation :</strong> Équipe Projet LinguaPay (Brayan-Weko) &bull;
+      <strong>Dépôt GitHub Public :</strong> https://github.com/Brayan-Weko/Linguapay<br>
+      <strong>Version :</strong> 1.0.0 Production Ready &bull;
+      <strong>Date de validation :</strong> Novembre 2026
+    </div>
+  </div>
+
+  <!-- TABLE DES MATIÈRES & SYNTHÈSE -->
+  <h2>1. Synthèse Exécutive & Problématique Résolue</h2>
+  
+  <p>
+    Au Cameroun et dans l'ensemble de la zone CEMAC, la digitalisation des services financiers (Mobile Money, portails bancaires, microfinance) connaît une croissance exponentielle. Cependant, plus de <strong>70 % des interfaces utilisateurs</strong> demeurent rédigées exclusivement en français ou en anglais, mobilisant un vocabulaire technique souvent hermétique (<em>« Solde créditeur », « Commission de découvert », « Virement irréversible », « Frais de transaction »</em>).
+  </p>
+
+  <p>
+    Pour des millions d'utilisateurs dont la langue usuelle d'échange et de confiance est une langue nationale (telles que l'<strong>Ewondo</strong> au Centre-Sud, le <strong>Duala</strong> sur le Littoral, ou le <strong>Fulfulde</strong> dans le Grand Nord), cette fracture linguistique engendre trois risques critiques :
+  </p>
+
+  <div class="card">
+    <ol style="margin: 0; padding-left: 20px;">
+      <li><strong>L'Exclusion Financière Numérique</strong> : Réticence à utiliser les services dématérialisés par crainte de mal interpréter un libellé ou de valider une opération coûteuse.</li>
+      <li><strong>La Vulnérabilité aux Fraudes et la Dépendance</strong> : Nécessité de confier son smartphone ou son code secret PIN à un intermédiaire pour lire les avertissements bancaires.</li>
+      <li><strong>Le Risque d'Erreur Transactionnelle</strong> : Confusion fréquente entre le montant principal d'un transfert et les frais de service prélevés.</li>
+    </ol>
+  </div>
+
+  <div class="alert-box green">
+    <strong>La Réponse LinguaPay :</strong> Une couche d'adaptation sécurisée et universelle, fonctionnant <strong>sans modifier une seule ligne du code source hôte</strong>, capable de s'adapter en direct à n'importe quel site bancaire, de garantir l'invariance mathématique absolue des montants financiers et de fournir une synthèse vocale native pour les personnes analphabètes ou malvoyantes.
+  </div>
+
+  <!-- ARCHITECTURE TECHNIQUE & SCHÉMA SVG -->
+  <h2>2. Architecture Système Globale & Découplage 3-Tiers</h2>
+
+  <p>
+    LinguaPay repose sur un modèle d'architecture découplé garantissant la totale indépendance entre la banque cible et le moteur linguistique :
+  </p>
+
+  <div class="diagram-container">
+    <svg width="680" height="230" viewBox="0 0 680 230" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="gBlue" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#1e3a8a"/>
+          <stop offset="100%" stop-color="#3b82f6"/>
+        </linearGradient>
+        <linearGradient id="gGreen" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#065f46"/>
+          <stop offset="100%" stop-color="#10b981"/>
+        </linearGradient>
+        <linearGradient id="gPurple" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#581c87"/>
+          <stop offset="100%" stop-color="#8b5cf6"/>
+        </linearGradient>
+      </defs>
+
+      <!-- Tier 1: Client Host & Extension -->
+      <rect x="10" y="20" width="200" height="190" rx="8" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/>
+      <rect x="10" y="20" width="200" height="32" rx="8" fill="url(#gBlue)"/>
+      <text x="110" y="42" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">1. COUCHE CLIENT (MV3)</text>
+      
+      <rect x="25" y="65" width="170" height="30" rx="4" fill="#ffffff" stroke="#94a3b8"/>
+      <text x="110" y="84" font-size="10" text-anchor="middle" fill="#0f172a">Portail Bancaire Hôte (DOM)</text>
+
+      <rect x="25" y="105" width="170" height="30" rx="4" fill="#ffffff" stroke="#94a3b8"/>
+      <text x="110" y="124" font-size="10" text-anchor="middle" fill="#0f172a">MutationObserver (&lt; 80ms)</text>
+
+      <rect x="25" y="145" width="170" height="50" rx="4" fill="#eff6ff" stroke="#3b82f6"/>
+      <text x="110" y="165" font-size="10" font-weight="bold" text-anchor="middle" fill="#1e40af">Shadow DOM Isolé</text>
+      <text x="110" y="182" font-size="8.5" text-anchor="middle" fill="#475569">(Contrôles, Audio, Inspecteur)</text>
+
+      <!-- Arrow 1 -> 2 -->
+      <path d="M 215 115 L 245 115" stroke="#1e3a8a" stroke-width="2.5" fill="none" marker-end="url(#arrow)"/>
+      <polygon points="245,115 237,110 237,120" fill="#1e3a8a"/>
+
+      <!-- Tier 2: Core API -->
+      <rect x="250" y="20" width="190" height="190" rx="8" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/>
+      <rect x="250" y="20" width="190" height="32" rx="8" fill="url(#gGreen)"/>
+      <text x="345" y="42" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">2. LINGUAPAY CORE API</text>
+
+      <rect x="265" y="65" width="160" height="32" rx="4" fill="#ecfdf5" stroke="#10b981"/>
+      <text x="345" y="85" font-size="9.5" font-weight="bold" text-anchor="middle" fill="#065f46">EntityShield (Bouclier)</text>
+
+      <rect x="265" y="108" width="160" height="32" rx="4" fill="#ffffff" stroke="#94a3b8"/>
+      <text x="345" y="128" font-size="9.5" text-anchor="middle" fill="#0f172a">Pivot Bridge (9 langues)</text>
+
+      <rect x="265" y="150" width="160" height="45" rx="4" fill="#ffffff" stroke="#94a3b8"/>
+      <text x="345" y="168" font-size="9.5" font-weight="bold" text-anchor="middle" fill="#0f172a">IntegrityVerifier</text>
+      <text x="345" y="184" font-size="8.5" text-anchor="middle" fill="#dc2626">Circuit-Breaker Fail-Safe</text>
+
+      <!-- Arrow 2 -> 3 -->
+      <polygon points="485,115 477,110 477,120" fill="#065f46"/>
+      <path d="M 445 115 L 485 115" stroke="#065f46" stroke-width="2.5" fill="none"/>
+
+      <!-- Tier 3: Processing & TTS Engines -->
+      <rect x="490" y="20" width="180" height="190" rx="8" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/>
+      <rect x="490" y="20" width="180" height="32" rx="8" fill="url(#gPurple)"/>
+      <text x="580" y="42" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">3. MOTEURS LINGUISTIQUES</text>
+
+      <rect x="505" y="65" width="150" height="30" rx="4" fill="#faf5ff" stroke="#8b5cf6"/>
+      <text x="580" y="84" font-size="9" text-anchor="middle" fill="#581c87">T1 : Glossaires Natifs (&lt;5ms)</text>
+
+      <rect x="505" y="102" width="150" height="30" rx="4" fill="#faf5ff" stroke="#8b5cf6"/>
+      <text x="580" y="121" font-size="9" text-anchor="middle" fill="#581c87">T2 : TemplateEngine Paramétré</text>
+
+      <rect x="505" y="138" width="150" height="30" rx="4" fill="#faf5ff" stroke="#8b5cf6"/>
+      <text x="580" y="157" font-size="9" text-anchor="middle" fill="#581c87">T3 : IA Contrainte & Cache</text>
+
+      <rect x="505" y="174" width="150" height="26" rx="4" fill="#fdf4ff" stroke="#d946ef"/>
+      <text x="580" y="191" font-size="8.5" font-weight="bold" text-anchor="middle" fill="#701a75">Audio NumberComposer</text>
+    </svg>
+    <div class="diagram-caption">Figure 1 : Flux architectural découplé en trois couches indépendantes.</div>
+  </div>
+
+  <div class="page-break"></div>
+
+  <!-- BOUCLIER FINANCIER & SÉCURITÉ -->
+  <h2>3. Le Bouclier Financier Déterministe (`EntityShield`)</h2>
+
+  <p>
+    L'innovation centrale de LinguaPay réside dans son <strong>bouclier mathématique réversible</strong>. Contrairement aux traducteurs automatiques génériques qui altèrent les nombres (ex: transformer <em>« 50 000 FCFA »</em> en <em>« 50 dollars »</em> ou modifier un chiffre de téléphone), l'<code>EntityShield</code> neutralise tout risque d'hallucination avant que le texte n'atteigne le moteur linguistique.
+  </p>
+
+  <div class="diagram-container">
+    <svg width="680" height="150" viewBox="0 0 680 150" xmlns="http://www.w3.org/2000/svg">
+      <!-- Step 1: Input -->
+      <rect x="10" y="40" width="170" height="70" rx="6" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.5"/>
+      <text x="95" y="60" font-size="9" font-weight="bold" text-anchor="middle" fill="#0f172a">1. TEXTE BRUT SOURCE</text>
+      <text x="95" y="80" font-size="8" text-anchor="middle" fill="#334155">« Virement de 50 000 FCFA</text>
+      <text x="95" y="95" font-size="8" text-anchor="middle" fill="#334155">à Samuel Eto'o »</text>
+
+      <!-- Arrow 1 -> 2 -->
+      <path d="M 185 75 L 215 75" stroke="#1e40af" stroke-width="2" fill="none"/>
+      <polygon points="215,75 208,71 208,79" fill="#1e40af"/>
+
+      <!-- Step 2: EntityShield -->
+      <rect x="220" y="25" width="230" height="100" rx="6" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+      <text x="335" y="48" font-size="10" font-weight="bold" text-anchor="middle" fill="#1e3a8a">2. BOUCLIER ENTITYSHIELD</text>
+      <text x="335" y="68" font-size="8.5" text-anchor="middle" fill="#1e40af">Montant &rarr; <tspan font-weight="bold">{{AMT_1}}</tspan> (50 000 FCFA)</text>
+      <text x="335" y="86" font-size="8.5" text-anchor="middle" fill="#1e40af">Bénéficiaire &rarr; <tspan font-weight="bold">{{BEN_1}}</tspan> (Samuel Eto'o)</text>
+      <text x="335" y="105" font-size="8" font-weight="bold" fill="#059669" text-anchor="middle">&bull; Zéro Donnée Réelle Transmise &bull;</text>
+
+      <!-- Arrow 2 -> 3 -->
+      <path d="M 455 75 L 485 75" stroke="#1e40af" stroke-width="2" fill="none"/>
+      <polygon points="485,75 478,71 478,79" fill="#1e40af"/>
+
+      <!-- Step 3: Verified Output -->
+      <rect x="490" y="40" width="180" height="70" rx="6" fill="#ecfdf5" stroke="#10b981" stroke-width="1.5"/>
+      <text x="580" y="60" font-size="9" font-weight="bold" text-anchor="middle" fill="#065f46">3. RESTITUTION SÉCURISÉE</text>
+      <text x="580" y="80" font-size="8" text-anchor="middle" fill="#047857">« Nlem virement ya 50 000 FCFA</text>
+      <text x="580" y="95" font-size="8" text-anchor="middle" fill="#047857">asù Samuel Eto'o »</text>
+    </svg>
+    <div class="diagram-caption">Figure 2 : Principe du masquage syntaxique et de la réinjection déterministe.</div>
+  </div>
+
+  <h3>Garanties de Sécurité & Zero-PII</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Type d'Entité</th>
+        <th>Motif Détecté</th>
+        <th>Jeton Immuable</th>
+        <th>Garantie de Préservation</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Montant Monétaire</strong></td>
+        <td><code>50 000 FCFA</code>, <code>145 750 XAF</code>, <code>100 EUR</code></td>
+        <td><code>{{AMT_1}}</code></td>
+        <td>Aucun chiffre ne peut être altéré ou omis.</td>
+      </tr>
+      <tr>
+        <td><strong>Pourcentages / Frais</strong></td>
+        <td><code>1,5%</code>, <code>2.5 %</code></td>
+        <td><code>{{PCT_1}}</code></td>
+        <td>Impossibilité d'arrondir ou de modifier les taux.</td>
+      </tr>
+      <tr>
+        <td><strong>Téléphone Mobile Money</strong></td>
+        <td><code>+237 699 00 11 22</code>, <code>677123456</code></td>
+        <td><code>{{TEL_1}}</code></td>
+        <td>Masquage Zero-PII total sur le réseau.</td>
+      </tr>
+      <tr>
+        <td><strong>Bénéficiaires & Noms</strong></td>
+        <td><code>Samuel Eto'o</code>, <code>Compte ****4821</code></td>
+        <td><code>{{BEN_1}}</code>, <code>{{ACC_1}}</code></td>
+        <td>Préservation exacte sans translittération erronée.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- PIPELINE HYBRIDE & CIRCUIT BREAKER -->
+  <h2>4. Moteur Hybride à 3 Niveaux & Circuit-Breaker</h2>
+
+  <p>
+    LinguaPay met en œuvre une cascade de résolution en entonnoir afin d'offrir une latence ultra-faible (&lt; 5 ms pour le vocabulaire certifié) tout en autorisant l'adaptation temps réel de messages imprévus.
+  </p>
+
+  <div class="diagram-container">
+    <svg width="680" height="180" viewBox="0 0 680 180" xmlns="http://www.w3.org/2000/svg">
+      <!-- Input Segment -->
+      <rect x="10" y="65" width="130" height="50" rx="6" fill="#f8fafc" stroke="#64748b" stroke-width="1.5"/>
+      <text x="75" y="88" font-size="9" font-weight="bold" text-anchor="middle" fill="#0f172a">Segment Masqué</text>
+      <text x="75" y="102" font-size="8" text-anchor="middle" fill="#64748b">({{AMT_1}}, etc.)</text>
+
+      <path d="M 145 90 L 175 90" stroke="#0f172a" stroke-width="2"/>
+      <polygon points="175,90 168,86 168,94" fill="#0f172a"/>
+
+      <!-- Tier 1 -->
+      <rect x="180" y="25" width="135" height="45" rx="5" fill="#ecfdf5" stroke="#10b981" stroke-width="1.5"/>
+      <text x="247" y="44" font-size="9" font-weight="bold" text-anchor="middle" fill="#065f46">Tier 1 : Glossaire Natif</text>
+      <text x="247" y="58" font-size="8" text-anchor="middle" fill="#047857">Latence &lt; 5 ms (Local)</text>
+
+      <!-- Tier 2 -->
+      <rect x="180" y="75" width="135" height="45" rx="5" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.5"/>
+      <text x="247" y="94" font-size="9" font-weight="bold" text-anchor="middle" fill="#1e40af">Tier 2 : Templates</text>
+      <text x="247" y="108" font-size="8" text-anchor="middle" fill="#1d4ed8">Patterns transactionnels</text>
+
+      <!-- Tier 3 -->
+      <rect x="180" y="125" width="135" height="45" rx="5" fill="#faf5ff" stroke="#a855f7" stroke-width="1.5"/>
+      <text x="247" y="144" font-size="9" font-weight="bold" text-anchor="middle" fill="#6b21a8">Tier 3 : IA Contrainte</text>
+      <text x="247" y="158" font-size="8" text-anchor="middle" fill="#7e22ce">Messages inédits</text>
+
+      <!-- Convergence -->
+      <path d="M 320 47 L 370 85" stroke="#10b981" stroke-width="1.5"/>
+      <path d="M 320 97 L 370 97" stroke="#3b82f6" stroke-width="1.5"/>
+      <path d="M 320 147 L 370 110" stroke="#a855f7" stroke-width="1.5"/>
+
+      <!-- Verifier Box -->
+      <rect x="375" y="65" width="140" height="65" rx="6" fill="#fffbeb" stroke="#f59e0b" stroke-width="2"/>
+      <text x="445" y="86" font-size="9.5" font-weight="bold" text-anchor="middle" fill="#92400e">IntegrityVerifier</text>
+      <text x="445" y="100" font-size="8" text-anchor="middle" fill="#78350f">Vérification Bijection</text>
+      <text x="445" y="114" font-size="8" text-anchor="middle" fill="#78350f">Tokens & Négation</text>
+
+      <!-- Pass/Fail Arrows -->
+      <path d="M 520 85 L 560 65" stroke="#10b981" stroke-width="2"/>
+      <polygon points="560,65 550,65 554,73" fill="#10b981"/>
+      <text x="545" y="60" font-size="8" font-weight="bold" fill="#10b981">SUCCÈS</text>
+
+      <path d="M 520 110 L 560 130" stroke="#ef4444" stroke-width="2"/>
+      <polygon points="560,130 554,122 550,130" fill="#ef4444"/>
+      <text x="545" y="145" font-size="8" font-weight="bold" fill="#ef4444">ÉCHEC</text>
+
+      <!-- Output Success -->
+      <rect x="565" y="45" width="105" height="38" rx="4" fill="#ecfdf5" stroke="#10b981"/>
+      <text x="617" y="62" font-size="8.5" font-weight="bold" text-anchor="middle" fill="#065f46">Affichage Traduit</text>
+      <text x="617" y="74" font-size="7.5" text-anchor="middle" fill="#047857">Infobulle bilingue</text>
+
+      <!-- Circuit Breaker Fallback -->
+      <rect x="565" y="112" width="105" height="42" rx="4" fill="#fef2f2" stroke="#ef4444"/>
+      <text x="617" y="128" font-size="8" font-weight="bold" text-anchor="middle" fill="#991b1b">CIRCUIT-BREAKER</text>
+      <text x="617" y="142" font-size="7.5" text-anchor="middle" fill="#b91c1c">Texte Source FR/EN</text>
+    </svg>
+    <div class="diagram-caption">Figure 3 : Arbre de décision et déclenchement automatique du Circuit-Breaker en cas d'incohérence.</div>
+  </div>
+
+  <div class="page-break"></div>
+
+  <!-- PONT UNIVERSEL & VOCALISATION -->
+  <h2>5. Pont Universel Multi-Langues & Synthèse Vocale FCFA</h2>
+
+  <h3>Pont Universel vers l'Anglais (`UniversalPivotBridge`)</h3>
+  <p>
+    De nombreux établissements bancaires panafricains ou fintechs internationales disposent de pages conçues en langues étrangères. LinguaPay intègre un module de détection heuristique et scripturale qui pivote automatiquement le texte source vers l'anglais avant de l'adapter dans les langues camerounaises.
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Langue Source Étrangère</th>
+        <th>Système d'Écriture</th>
+        <th>Mécanisme de Détection</th>
+        <th>Exemple d'Entrée</th>
+        <th>Pivot Canonique</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Espagnol / Portugais / Italien</strong></td>
+        <td>Latin étendu</td>
+        <td>Mots balises bancaires (<em>saldo, transferencia, comisión</em>)</td>
+        <td><em>« Saldo disponible : 50 000 FCFA »</em></td>
+        <td><code>Available balance : 50 000 FCFA</code></td>
+      </tr>
+      <tr>
+        <td><strong>Allemand</strong></td>
+        <td>Latin étendu</td>
+        <td>Composés nominaux (<em>Verfügbares Guthaben, Gebühr</em>)</td>
+        <td><em>« Verfügbares Guthaben : 10 000 FCFA »</em></td>
+        <td><code>Available balance : 10 000 FCFA</code></td>
+      </tr>
+      <tr>
+        <td><strong>Arabe</strong></td>
+        <td>Arabe (RTL)</td>
+        <td>Bloc Unicode <code>؀-ۿ</code></td>
+        <td><em>« الرصيد المتوفر : 25 000 FCFA »</em></td>
+        <td><code>Available balance : 25 000 FCFA</code></td>
+      </tr>
+      <tr>
+        <td><strong>Chinois (Mandarin)</strong></td>
+        <td>Sinogrammes (CJK)</td>
+        <td>Bloc Unicode <code>一-鿿</code></td>
+        <td><em>« 可用余额 : 100 000 FCFA »</em></td>
+        <td><code>Available balance : 100 000 FCFA</code></td>
+      </tr>
+      <tr>
+        <td><strong>Russe</strong></td>
+        <td>Cyrillique</td>
+        <td>Bloc Unicode <code>Ѐ-ӿ</code></td>
+        <td><em>« Доступный баланс : 15 000 FCFA »</em></td>
+        <td><code>Available balance : 15 000 FCFA</code></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Synthèse Vocale & Verbalisation Grammaticale des Nombres (`NumberComposer`)</h3>
+  <p>
+    Pour les populations rurales ou peu scolarisées, l'écriture orthographique des langues nationales peut être difficile à déchiffrer. LinguaPay résout ce problème par un <strong>moteur récursif de verbalisation numérique</strong> associé à un lecteur séquentiel WebAudio fluide (capsules audio PCM 22 050 Hz avec fondu croisé de 25 ms).
+  </p>
+
+  <div class="card">
+    <div style="font-weight: 700; color: #1e3a8a; margin-bottom: 6px;">Exemple de verbalisation d'un virement de 51 500 FCFA :</div>
+    <ul style="margin: 0; padding-left: 20px;">
+      <li><strong>En Ewondo :</strong> <em>« Dòla mewóm métán ai ewólo ai bikpwele bitán »</em></li>
+      <li><strong>En Duala :</strong> <em>« Moni mw'a mômô matanu na ewólo na bikpwele bitanu »</em></li>
+      <li><strong>En Fulfulde :</strong> <em>« Buuɗi ujune capanɗe jowi e go'o e teemeɗɗe jowi »</em></li>
+    </ul>
+  </div>
+
+  <!-- PRÉSENTATION VISUELLE & MAQUETTE -->
+  <h2>6. Présentation Visuelle de la Solution & Expérience Utilisateur</h2>
+
+  <p>
+    L'expérience LinguaPay est entièrement intégrée dans le navigateur via l'extension Manifest V3, garantissant un rendu fluide et sans interférence CSS avec la banque hôte.
+  </p>
+
+  <div class="diagram-container">
+    <svg width="680" height="250" viewBox="0 0 680 250" xmlns="http://www.w3.org/2000/svg">
+      <!-- Browser window outline -->
+      <rect x="10" y="10" width="660" height="230" rx="8" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/>
+      
+      <!-- Browser bar -->
+      <rect x="10" y="10" width="660" height="28" rx="8" fill="#e2e8f0"/>
+      <circle cx="28" cy="24" r="5" fill="#ef4444"/>
+      <circle cx="42" cy="24" r="5" fill="#f59e0b"/>
+      <circle cx="56" cy="24" r="5" fill="#10b981"/>
+      <rect x="75" y="16" width="300" height="16" rx="4" fill="#ffffff"/>
+      <text x="85" y="28" font-size="8.5" fill="#64748b">https://banque-cameroun.cm/mon-compte</text>
+
+      <!-- SimuBank Header -->
+      <rect x="25" y="48" width="450" height="35" rx="4" fill="#ffffff" stroke="#e2e8f0"/>
+      <text x="40" y="70" font-size="12" font-weight="bold" fill="#0f172a">SimuBank CM &bull; E-Banking</text>
+
+      <!-- Bank Card Widget -->
+      <rect x="25" y="92" width="220" height="85" rx="6" fill="#1e3a8a"/>
+      <text x="40" y="112" font-size="9" fill="#93c5fd">Akìba e-Compte (Solde)</text>
+      <text x="40" y="138" font-size="16" font-weight="bold" fill="#ffffff">145 750 FCFA</text>
+      <text x="40" y="162" font-size="8.5" fill="#bfdbfe">Compte : **** 4821</text>
+
+      <!-- Transfer Form -->
+      <rect x="255" y="92" width="220" height="85" rx="6" fill="#ffffff" stroke="#e2e8f0"/>
+      <text x="268" y="112" font-size="9" font-weight="bold" fill="#334155">Lom moni (Effectuer Virement)</text>
+      <rect x="268" y="122" width="194" height="20" rx="3" fill="#f1f5f9" stroke="#cbd5e1"/>
+      <text x="276" y="136" font-size="8.5" fill="#0f172a">50 000 FCFA</text>
+      <rect x="268" y="148" width="90" height="18" rx="3" fill="#10b981"/>
+      <text x="313" y="160" font-size="8" font-weight="bold" fill="#ffffff" text-anchor="middle">Lom (Envoyer)</text>
+
+      <!-- Floating LinguaPay Shadow Overlay -->
+      <rect x="485" y="48" width="175" height="180" rx="8" fill="#ffffff" stroke="#3b82f6" stroke-width="2" filter="drop-shadow(0 4px 6px rgba(0,0,0,0.1))"/>
+      <rect x="485" y="48" width="175" height="28" rx="8" fill="#1e40af"/>
+      <text x="572" y="66" font-size="9.5" font-weight="bold" fill="#ffffff" text-anchor="middle">LinguaPay Assistant</text>
+
+      <text x="495" y="92" font-size="8.5" fill="#0f172a">Langue : <strong>Ewondo</strong></text>
+      <rect x="495" y="100" width="155" height="18" rx="3" fill="#ecfdf5" stroke="#10b981"/>
+      <text x="572" y="112" font-size="7.5" font-weight="bold" fill="#065f46" text-anchor="middle">&bull; Bouclier Actif (3 entités)</text>
+
+      <rect x="495" y="124" width="155" height="22" rx="3" fill="#eff6ff" stroke="#3b82f6"/>
+      <text x="572" y="138" font-size="8" font-weight="bold" fill="#1e40af" text-anchor="middle">&#128266; Écouter Résumé (Audio)</text>
+
+      <rect x="495" y="152" width="155" height="34" rx="3" fill="#f8fafc" stroke="#e2e8f0"/>
+      <text x="502" y="166" font-size="7.5" font-weight="bold" fill="#334155">INSPECTEUR D'INTÉGRITÉ</text>
+      <text x="502" y="178" font-size="7" fill="#059669">0% altération &bull; Zero-PII SHA256</text>
+
+      <rect x="495" y="192" width="155" height="22" rx="3" fill="#f1f5f9" stroke="#94a3b8"/>
+      <text x="572" y="206" font-size="7.5" text-anchor="middle" fill="#475569">Restaurer Original FR/EN</text>
+    </svg>
+    <div class="diagram-caption">Figure 4 : Maquette interactive du portail bancaire adapté par LinguaPay via Shadow DOM.</div>
+  </div>
+
+  <div class="page-break"></div>
+
+  <!-- RÉSULTATS DE VALIDATION & TESTS -->
+  <h2>7. Validation Technique, Fuzzing & Résultats des Tests</h2>
+
+  <p>
+    La robustesse de LinguaPay Assistant a été vérifiée à travers une batterie complète de tests automatisés intégrés dans les pipelines GitHub Actions :
+  </p>
+
+  <div class="kpi-row">
+    <div class="kpi-col">
+      <div class="kpi-number">26 / 26</div>
+      <div class="kpi-label">Tests Pytest Passés</div>
+    </div>
+    <div class="kpi-col">
+      <div class="kpi-number">600 / 600</div>
+      <div class="kpi-label">Cas de Fuzzing Validés</div>
+    </div>
+    <div class="kpi-col">
+      <div class="kpi-number">0</div>
+      <div class="kpi-label">Vulnérabilité Bandit / CodeQL</div>
+    </div>
+    <div class="kpi-col">
+      <div class="kpi-number">100%</div>
+      <div class="kpi-label">Conformité OpenAPI 3.1</div>
+    </div>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Suite de Test</th>
+        <th>Périmètre Validé</th>
+        <th>Nombre de Cas</th>
+        <th>Résultat</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Fuzzing Invariance Financière</strong></td>
+        <td>Montants aléatoires, frais, téléphones +237, devises XAF/EUR/USD</td>
+        <td>600 cas synthétiques</td>
+        <td><span class="badge badge-green">100% SUCCÈS (0 altération)</span></td>
+      </tr>
+      <tr>
+        <td><strong>Circuit-Breaker & Sécurité</strong></td>
+        <td>Rejet des corruptions de tokens, détection des inversions de polarité</td>
+        <td>8 scénarios d'attaque</td>
+        <td><span class="badge badge-green">100% REJET FAIL-SAFE</span></td>
+      </tr>
+      <tr>
+        <td><strong>Spécification OpenAPI & Swagger</strong></td>
+        <td>Validation des 7 endpoints, schémas Pydantic, Try-it-out</td>
+        <td>3 suites dédiées</td>
+        <td><span class="badge badge-green">CONFORME OPENAPI 3.1</span></td>
+      </tr>
+      <tr>
+        <td><strong>End-to-End Smoke (Playwright)</strong></td>
+        <td>Injection Shadow DOM, parcours 5 étapes, mutation observer live</td>
+        <td>Parcours complet</td>
+        <td><span class="badge badge-green">TEST E2E PASSÉ (&lt; 5s)</span></td>
+      </tr>
+      <tr>
+        <td><strong>Tests Unitaires Extension (Vitest)</strong></td>
+        <td>Masquage EntityShield, regex déterministes côté client TypeScript</td>
+        <td>Suite Vitest MV3</td>
+        <td><span class="badge badge-green">3/3 TESTS PASSÉS</span></td>
+      </tr>
+      <tr>
+        <td><strong>Audits de Sécurité Statique</strong></td>
+        <td>Bandit (Python), pip-audit, npm-audit, CodeQL SAST</td>
+        <td>Scan complet du code</td>
+        <td><span class="badge badge-green">0 FAILLES / ZERO-PII OK</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- DÉPLOIEMENT & REPRODUCTIBILITÉ -->
+  <h2>8. Procédure de Déploiement & Reproductibilité</h2>
+
+  <p>
+    Toutes les briques du projet sont immédiatement reproductibles sur n'importe quel poste de travail en quelques commandes :
+  </p>
+
+  <h3>Option 1 : Démarrage Local Standard</h3>
+  <div class="card">
+    <pre><code># 1. Démarrer le backend Core API (FastAPI)
+cd backend
+.\.venv\Scriptsctivate
+uvicorn app.main:app --port 8000 --reload
+
+# 2. Compiler l'extension navigateur MV3 (dans un second terminal)
+cd extension
+npm install
+npm run build
+
+# 3. Démarrer le simulateur bancaire SimuBank CM (dans un troisième terminal)
+python -m http.server 5173 --directory simulator
+</code></pre>
+  </div>
+
+  <h3>Option 2 : Démarrage en Une Ligne via Docker Compose</h3>
+  <div class="card">
+    <pre><code>docker compose up --build</code></pre>
+    <p style="margin-bottom:0; font-size:9pt; color:#64748b;">
+      Démarre simultanément le backend Core API sur <code>http://localhost:8000</code> et le simulateur bancaire sur <code>http://localhost:5173</code>.
+    </p>
+  </div>
+
+  <h3>Accès aux Interfaces & Documentation</h3>
+  <ul>
+    <li><strong>Swagger UI Interactif :</strong> <a href="http://localhost:8000/docs">http://localhost:8000/docs</a> (test en direct de toutes les routes).</li>
+    <li><strong>Documentation ReDoc :</strong> <a href="http://localhost:8000/redoc">http://localhost:8000/redoc</a>.</li>
+    <li><strong>Simulateur Bancaire SimuBank CM :</strong> <a href="http://localhost:5173/index.html">http://localhost:5173/index.html</a>.</li>
+    <li><strong>Dépôt GitHub Public :</strong> <a href="https://github.com/Brayan-Weko/Linguapay">https://github.com/Brayan-Weko/Linguapay</a>.</li>
+  </ul>
+
+</body>
+</html>

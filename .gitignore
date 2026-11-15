@@ -18,4 +18,6 @@ extension/dist/
 Thumbs.db
 test-results/
 playwright-report/
+docs/video/*.webm
+docs/video/raw/
 
